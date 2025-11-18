@@ -1,0 +1,6 @@
+name: term-deposit-classification
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - ipykernel
