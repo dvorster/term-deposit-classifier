@@ -29,4 +29,4 @@ Please note that this project is released with a Contributor Code of Conduct. By
 
 ## Attribution
 
-These contributing guidelines were adapted from the [breat-cancer-predictor contributing guidlines] (https://github.com/ttimbers/breast-cancer-predictor/blob/0.0.1/CONTRIBUTING.md) as well as the [atom editor contributing guidlines] (https://github.com/atom/atom/blob/master/CONTRIBUTING.md)
+These contributing guidelines were adapted from the [breat-cancer-predictor contributing guidlines](https://github.com/ttimbers/breast-cancer-predictor/blob/0.0.1/CONTRIBUTING.md) as well as the [atom editor contributing guidlines.](https://github.com/atom/atom/blob/master/CONTRIBUTING.md)
