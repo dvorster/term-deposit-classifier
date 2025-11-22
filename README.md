@@ -32,7 +32,7 @@ For reproducing of our analysis and results, please follow these steps: <br>
 ```
 3. Install the required dependencies listed in the conda-lock.yml file using the code snippet:
 ```bash
-    conda install --name term-deposit-classifier conda-lock.yml
+    conda-lock install --name term-deposit-classifier conda-lock.yml
 # Then
     conda activate term-deposit-classifier 
 ```
