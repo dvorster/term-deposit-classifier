@@ -59,5 +59,11 @@ Moro, S., Rita, P., & Cortez, P. (2014). Bank Marketing [Dataset]. UCI Machine L
 
 Scikit-learn. (n.d.). scikit-learn: Machine learning in Python. Retrieved November 21, 2025, from https://scikit-learn.org/stable/
 
+uci-ml-repo (2025). ucimlrepo: Python package for dataset imports from the UCI Machine Learning Repository [Computer software]. GitHub. https://github.com/uci-ml-repo/ucimlrepo
+
+Timbers, T. (n.d.). breast_cancer_predictor (Version 0.0.1) [Computer software]. GitHub: https://github.com/ttimbers/breast_cancer_predictor/tree/0.0.1
+
+Nguhe. (n.d.). Predictive analysis of client subscription rates in the Portuguese banking sector using SAS. [Medium.](https://medium.com/@nguhe/predictive-analysis-of-client-subscription-rates-in-the-portuguese-banking-sector-using-sas-40fb04a9dcd3)
+
 ## Acknowledgements
 We would like to acknowledge the support and guidance of our instructor `Sky Sheng` throughout this project. Her insight and guidance were invaluable in shaping the final outcome.
