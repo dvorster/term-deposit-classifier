@@ -1,19 +1,23 @@
 # Term Deposit Classification Project 
 
- - Authors: Godsgift Braimah, Devon Vorster, Fu Hung Kwong, & Chikire Aku-Ibe
+ - Authors: Godsgift Braimah, Devon Vorster, Chikire Aku-Ibe, & Fu Hung Kwong
 
-This Project Demonstrates the analysis and requirements for `Milestone 1` for the Data Science Workflows Course (DSCI 522) in the Master of Data Science program at the University of British Columbia, Vancouver.
+This Project Demonstrates the analysis and requirements of `Milestone 1` for the Data Science Workflows Course (DSCI 522) in the Master of Data Science program at the University of British Columbia, Vancouver.
 
 
 ## Project Overview
-Banks are..., The Term Deposit Classification Project aims to predict whether a client will subscribe to a term deposit based on various features. 
+This project focuses on building a classification model to predict whether a bank client will subscribe to a term deposit; a type of investment where customers of a bank agree to lock away a specific amount of money with the bank for a fixed period of time. By analyzing client demographics (such as job type, age, education level etc.) alongside marketing interaction history, we aim to identify high-potential customers to optimize direct marketing campaigns or streamline customer relations interactions.
 
-## Dataset
-The dataset used for this project is derived from a marketing campaign conducted by a bank. The project involves data preprocessing, exploratory data analysis, feature engineering, model selection, and evaluation.
+For our analysis evaluated both Logistic Regression and Support Vector Classifier (SVC) models. The Logistic Regression model proved to be the superior classifier, achieving a test accuracy score of 0.9038 on an unseen data set. The training score was 0.9056, indicating a good fit with no significant overfitting.
+
+From a business perspective, an accuracy exceeding 90% suggests the model is highly effective for initial client prioritization. Implementing this model could significantly improve resource allocation for the bank by targeting clients most likely to convert. However, we recommend further research into other model evaluation metrics considering the imbalanced scenario observed in out target class, so as to reduce the occurrence of False Negatives (the error of missing clients who would have subscribed).
+
+### Dataset
+The data we used was obtained from the UCI Machine Learning Repository which can be found [here](https://archive.ics.uci.edu/dataset/222/bank+marketing), specifically the Bank Marketing dataset of a Portuguese bank institution. The dataset contains various features about bank customers and whether they subscribed to a term deposit, an investment product offered by the bank which is our variable y. Each row in the dataset represents a customer and our data was used to predict if they would subscribe to the term deposit or not. The original dataset contains 45211 records with 16 features and one target (17 columns). For the purpose of this analysis, we sampled 4,000 records from the original dataset to speed up our EDA and model training process.
 
 
-## Report
-The detailed project report can be found in the here file. This report includes the following sections: 
+### Report
+The project analysis and our conclusions can be found [here](https://github.com/dvorster/term-deposit-classifier/blob/main/term-deposit-analysis.ipynb). 
 
 
 ## Usage
@@ -28,26 +32,32 @@ For reproducing of our analysis and results, please follow these steps: <br>
 ```
 3. Install the required dependencies listed in the conda-lock.yml file using the code snippet:
 ```bash
-    conda install --file conda-lock.yml
+    conda install --name term-deposit-classifier conda-lock.yml
 ```
 4. Launch Jupyter Notebook or Jupyter Lab in the project directory.
 ```bash
     jupyter lab
 ```
+5. Open the analysis file; term-deposit-analysis.ipynb
+ 
+6. At the top right, click the `Select Kernel` option, choose `Python [conda env:term-deposit-classifier]`.
 
-5. Run the Jupyter notebooks in the order specified in the report to replicate the analysis and
-
+7. Finally, under the `kernel` menu at the top, click `Restart Kernel and Run All Cells..` to run the notebook and replicate the analysis.
 
 ## Dependencies
-
-
+- conda (version 25.7.0)
+- conda-lock (Version 3.0.4)
+- ipykernel (Version 7.1.0)
+- Python and packages listed [here](https://github.com/dvorster/term-deposit-classifier/blob/main/environment.yml)
 
 
 ## Licenses
-
+The Term Deposit Classification analysis report is licensed under the  [Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/). If sharing, please provide attribution and link to this webpage. The software code contained within this repository is licensed under the [MIT license](https://opensource.org/license/MIT). You can find more information in our [license file](https://github.com/dvorster/term-deposit-classifier/blob/main/LICENSE).
 
 ## References
+Moro, S., Rita, P., & Cortez, P. (2014). Bank Marketing [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5K306.
 
+Scikit-learn. (n.d.). scikit-learn: Machine learning in Python. Retrieved November 21, 2025, from https://scikit-learn.org/stable/
 
 ## Acknowledgements
 We would like to acknowledge the support and guidance of our instructor `Sky Sheng` throughout this project. Her insight and guidance were invaluable in shaping the final outcome.
