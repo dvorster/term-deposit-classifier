@@ -1,0 +1,9 @@
+services:
+  project-env:
+    image: dvorster/term-deposit-classifier:latest
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan/work
+    # Set the entrypoint to run JupyterLab
+    entrypoint: ["tini", "-g", "--", "start-notebook.sh", "--ServerApp.token='password'", "--ip=127.0.0.1"]
