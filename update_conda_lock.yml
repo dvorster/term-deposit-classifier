@@ -2,6 +2,7 @@ name: Update conda-lock file
 
 on:
   push:
+    branches: [ workflow ]
     paths:
       - "environment.yml"     # Only run when this file changes
   workflow_dispatch:          # Optional: allow manual trigger
