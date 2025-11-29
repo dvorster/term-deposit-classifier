@@ -3,17 +3,21 @@ channels:
 - conda-forge
 dependencies:
 - ucimlrepo=0.0.7
-- ipykernel=7.1.0
-- pyarrow=22.0.0
-- python=3.13.5
-- scikit-learn=1.7.2
-- altair=6.0.0
-- pandas=2.3.3
-- pip=25.3
-- scipy=1.16.3
-- matplotlib=3.10.8
-- numpy=2.3.5
 - vegafusion=2.0.3
+- python=3.13.5
+- pandas=2.3.3
+- scikit-learn=1.7.2
+- matplotlib=3.10.8
+- conda-lock=3.0.4
+- pip=25.3
+- altair=6.0.0
+- numpy=2.3.5
 - pandera=0.27.0
-- deepchecks=0.19.1
+- pyarrow=22.0.0
+- scipy=1.16.3
+- ipykernel=7.1.0
+- vl-convert-python[version='>=1.8.0']
+- pip:
+  - deepchecks==0.19.1
+  - altair-ally==0.1.1
 prefix: /Users/chikire/miniforge3/envs/term-deposit-classifier
