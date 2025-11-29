@@ -14,3 +14,4 @@ dependencies:
 - scipy=1.16.3
 - pyarrow=22.0.0
 - pip=25.3
+- make=4.4.1
