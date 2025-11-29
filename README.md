@@ -8,7 +8,7 @@ This Project Demonstrates the analysis and requirements of `Milestone 1` for the
 ## Project Overview
 This project focuses on building a classification model to predict whether a bank client will subscribe to a term deposit; a type of investment where customers of a bank agree to lock away a specific amount of money with the bank for a fixed period of time. By analyzing client demographics (such as job type, age, education level etc.) alongside marketing interaction history, we aim to identify high-potential customers to optimize direct marketing campaigns or streamline customer relations interactions.
 
-For our analysis evaluated both Logistic Regression and Support Vector Classifier (SVC) models. The SCV model proved to be the superior classifier, achieving a test accuracy score of 0.9075 on an unseen data set. The training score was 0.9490625, indicating a good fit with no significant overfitting.
+For our analysis evaluated both Logistic Regression and Support Vector Classifier (SVC) models. The SVC model proved to be the superior classifier, achieving a test accuracy score of 0.9075 on an unseen data set. The training score was 0.9490625, indicating a good fit with no significant overfitting.
 
 From a business perspective, an accuracy exceeding 90% suggests the model is highly effective for initial client prioritization. Implementing this model could significantly improve resource allocation for the bank by targeting clients most likely to convert. However, we recommend further research into other model evaluation metrics considering the imbalanced scenario observed in out target class, so as to reduce the occurrence of False Negatives (the error of missing clients who would have subscribed).
 
