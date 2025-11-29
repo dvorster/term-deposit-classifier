@@ -31,7 +31,7 @@ The project analysis and our conclusions can be found [here](https://github.com/
 ```
 2. Navigate to the project directory.
 ```bash
-    cd .../term-deposit-classifier
+    cd term-deposit-classifier
 ```
 
 ### Running the analysis
