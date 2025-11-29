@@ -49,7 +49,7 @@ jobs:
       - name: Update docker-compose.yml with new image tag
         if: success()
         run: |
-          sed -i "s|image:  dvorster/term-deposit-classifier:.*|image:  dvorster/term-deposit-classifier:${{ steps.meta.outputs.version }}|" docker-compose.yml
+          sed -i "s|image: dvorster/term-deposit-classifier:.*|image: dvorster/term-deposit-classifier:${{ steps.meta.outputs.version }}|" docker-compose.yml
 
       - name: Commit and push updated docker-compose.yml
         if: success()
