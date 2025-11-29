@@ -21,7 +21,10 @@ The project analysis and our conclusions can be found [here](https://github.com/
 
 
 ## Usage
-For reproducing of our analysis and results, please follow these steps: <br>
+
+### Setup
+> For reproducing of our analysis and results, please follow these steps: <br>
+
 1. Clone the repository to your local machine. 
 ```bash
     git clone https://github.com/dvorster/term-deposit-classifier.git
@@ -30,28 +33,59 @@ For reproducing of our analysis and results, please follow these steps: <br>
 ```bash
     cd term-deposit-classifier
 ```
-3. Install the required dependencies listed in the conda-lock.yml file using the code snippet:
-```bash
-    conda-lock install --name term-deposit-classifier conda-lock.yml
-# Then
-    conda activate term-deposit-classifier 
-```
-4. Launch Jupyter Notebook or Jupyter Lab in the project directory.
-```bash
-    jupyter lab
-```
-5. Open the analysis file; term-deposit-analysis.ipynb
- 
-6. At the top right, click the `Select Kernel` option, choose `Python [conda env:term-deposit-classifier]`.
 
-7. Finally, under the `kernel` menu at the top, click `Restart Kernel and Run All Cells..` to run the notebook and replicate the analysis.
+### Running the analysis
+
+> For Windows and Mac users, ensure your Docker Desktop is running.
+
+1. In the root directory of this project, enter the following into the command line:
+```bash
+    docker compose up
+```
+2. In the terminal, look for a URL that starts with `http://127.0.0.1:8888/lab?token=`. Copy and paste the URL into your browser. Optionally, enter `v` in the teminal to open your docker desktop, and click on the highlighted link. <br>
+(See the highlighted section of the image below for an example.)
+
+<img src="img/jupyter-container-url.png" width=400>
+
+> #### Troubleshooting this step:
+>
+> If your web browser will not open the URL.
+>
+> a. In your terminal enter `ctrl + c` to exit the container. Run:
+```bash
+docker compose rm
+```
+> b. Using the terminal (enter `nano docker-compose.yml`), or a text editor open the `docker-compose.yml` file. Change the line "--ip:127.0.0.1" to "--ip:0.0.0.0". Save and exit the file.
+> Run:
+```bash
+docker compose up
+```
+> Copy and paste the URL into your web browser.
+
+3. In Jupyter Lab enter 'password' where it says "Password or token:". <br>
+(See the below image for an example of where to do this.)
+
+<img src="img/jupyter-container-enter-password-location.png" width=400>
+ 
+4. Running the analysis: <br>
+Inside the Jupyter notebook, open the `work` folder, and then open the `term-deposit-analysis.ipynb`. Under the `kernel` menu at the top, click `Restart Kernel and Run All Cells..` to run the notebook and replicate the analysis.
+
+## Developer Notes
 
 ## Dependencies
 - conda (version 25.7.0)
 - conda-lock (Version 3.0.4)
 - ipykernel (Version 7.1.0)
 - Python and packages listed [here](https://github.com/dvorster/term-deposit-classifier/blob/main/environment.yml)
+- [Docker](https://www.docker.com/)
 
+### Adding a new dependency
+
+1. Add the dependency to the `environment.yml` file on a new branch.
+
+2. Push the changes to GitHub. A new `conda-linux64.lock` file will be made and a new docker image will be built and pushed to Docker Hub automatically. The `docker-compose.yml` file will be automatically updated with the SHA for the new container image.
+
+3. Send a pull request to merge the changes into the `main` branch.
 
 ## Licenses
 The Term Deposit Classification analysis report is licensed under the  [Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/). If sharing, please provide attribution and link to this webpage. The software code contained within this repository is licensed under the [MIT license](https://opensource.org/license/MIT). You can find more information in our [license file](https://github.com/dvorster/term-deposit-classifier/blob/main/LICENSE).
