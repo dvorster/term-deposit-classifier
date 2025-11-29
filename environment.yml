@@ -4,7 +4,7 @@ channels:
 - defaults
 dependencies:
 - python=3.11.14
-- numpy=2.3.5
+- numpy=1.26.4
 - pandas=2.3.3
 - ucimlrepo=0.0.7
 - altair=6.0.0
