@@ -2,7 +2,7 @@
 
  - Authors: Godsgift Braimah, Devon Vorster, Chikire Aku-Ibe, & Fu Hung Kwong
 
-This Project Demonstrates the analysis and requirements of `Milestone 1` for the Data Science Workflows Course (DSCI 522) in the Master of Data Science program at the University of British Columbia, Vancouver.
+This Project Demonstrates the analysis and requirements of `Milestone 1` and `Milestone 2` for the Data Science Workflows Course (DSCI 522) in the Master of Data Science program at the University of British Columbia, Vancouver.
 
 
 ## Project Overview
