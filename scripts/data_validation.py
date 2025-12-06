@@ -3,7 +3,7 @@
 
 import click
 import pandas as pd
-import pandera as pa
+import pandera.pandas as pa
 
 def assert_csv_format(file_path):
     assert file_path.endswith(".csv"), "Error: File must be a CSV."
