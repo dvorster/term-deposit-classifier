@@ -14,6 +14,10 @@ from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
 import warnings
 
+<<<<<<< HEAD
+=======
+# Filter warnings to keep the output clean
+>>>>>>> f693be3 (Added term deposit classification script)
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -22,8 +26,12 @@ def feature_corr(df, target_col):
     Runs Deepchecks validation for feature-label and feature-feature correlations.
     Raises ValueError if thresholds are exceeded.
     """
+<<<<<<< HEAD
     ds = Dataset(df, label=target_col, cat_features=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact',
        'month', 'pdays_contacted'])
+=======
+    ds = Dataset(df, label=target_col, cat_features=[])
+>>>>>>> f693be3 (Added term deposit classification script)
 
     # Check feature-label correlations
     check_feat_lab = FeatureLabelCorrelation().add_condition_feature_pps_less_than(0.9)
@@ -69,6 +77,7 @@ def search_svc(X_train, y_train, preprocessor, seed):
     return random_svc
 
 @click.command()
+<<<<<<< HEAD
 #@click.option('--train-data', type=str, help="Path to training data CSV")
 @click.option('--processed-train-data', type=str, help="Path to processed training data CSV")
 @click.option('--preprocessor', type=str, help="Path to preprocessor pickle object")
@@ -78,19 +87,44 @@ def search_svc(X_train, y_train, preprocessor, seed):
 @click.option('--target-col', type=str, default='target', help="Name of the target/label column")
 @click.option('--seed', type=int, default=522, help="Random seed")
 def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, target_col, seed):
+=======
+@click.option('--train-data', type=str, help="Path to training data CSV")
+@click.option('--preprocessor', type=str, help="Path to preprocessor pickle object")
+@click.option('--columns-to-drop', type=str, help="Optional: Path to columns to drop from data")
+@click.option('--pipeline-to', type=str, help="Directory to save the pipeline")
+@click.option('--plot-to', type=str, help="Directory to save the plots")
+@click.option('--target-col', type=str, default='target', help="Name of the target/label column")
+@click.option('--seed', type=int, default=522, help="Random seed")
+def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target_col, seed):
+>>>>>>> f693be3 (Added term deposit classification script)
     '''
     Validates data, fits an SVC classifier, saves the pipeline, 
     and saves a confusion matrix plot.
     '''
+<<<<<<< HEAD
     # Read Data
     train_df = pd.read_csv(processed_train_data)
+=======
+    # Load resources
+    train_df = pd.read_csv(train_data)
+>>>>>>> f693be3 (Added term deposit classification script)
 
     with open(preprocessor, "rb") as f:
         data_preprocessor = pickle.load(f)
         
+<<<<<<< HEAD
     # 1. Run Data Validation
     # We pass the whole dataframe because Deepchecks needs the label column context
     #feature_corr(train_df, target_col)
+=======
+    if columns_to_drop:
+        to_drop = pd.read_csv(columns_to_drop).features.tolist()
+        train_df = train_df.drop(columns=to_drop)
+
+    # 1. Run Data Validation
+    # We pass the whole dataframe because Deepchecks needs the label column context
+    feature_corr(train_df, target_col)
+>>>>>>> f693be3 (Added term deposit classification script)
 
     # Prepare X and y
     X_train = train_df.drop(columns=[target_col])
@@ -101,6 +135,7 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
     print("Tuning SVC model")
     best_model = search_svc(X_train, y_train, data_preprocessor, seed)
     
+<<<<<<< HEAD
     train_score = round(best_model.best_score_,4)
     train_score_df = pd.DataFrame({'metric':['accuracy'], 'score': [train_score]})
     
@@ -108,6 +143,9 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
     os.makedirs(table_to, exist_ok=True)
     score_path = os.path.join(table_to, "svc_train_score.csv")
     train_score_df.to_csv(score_path, index=False)
+=======
+    print(f'Best Train Score: {best_model.best_score_:.3f}')
+>>>>>>> f693be3 (Added term deposit classification script)
 
 
     # 3. Save the Model
@@ -124,9 +162,15 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
         y_train,
         values_format="d"
     )
+<<<<<<< HEAD
     plt.title("Train Data: Confusion Matrix for SVC model")
     
     plot_path = os.path.join(plot_to, "train_svc_confusion_matrix.png")
+=======
+    plt.title("Figure 5: Confusion Matrix for SVC model")
+    
+    plot_path = os.path.join(plot_to, "svc_confusion_matrix.png")
+>>>>>>> f693be3 (Added term deposit classification script)
     plt.savefig(plot_path)
     print(f"Confusion matrix saved to {plot_path}")
 
