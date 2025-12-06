@@ -8,9 +8,6 @@ from ucimlrepo import fetch_ucirepo
 import pandas
 
 
-@click.command()
-@click.option('--id', type=str, help="id of dataset to be downloaded")
-@click.option('--directory', type=str, help="Path to directory where raw data will be written to")
 def read_uci_id(id, directory, filename):
     """
     Read in a data set from the UCI Machine Learning repository using their API and save the 
@@ -27,7 +24,6 @@ def read_uci_id(id, directory, filename):
     --------
     None
     """
-    #filename = os.path.basename(filename)
 
     # Check if directory exists, if not raise error
     if not os.path.isdir(directory):
@@ -53,6 +49,10 @@ def read_uci_id(id, directory, filename):
     raw_uci_data_sample.to_csv(full_path_data_sample)
     
 
+@click.command()
+@click.option('--id', type=str, help="id of dataset to be downloaded")
+@click.option('--write_to', type=str, help="Path to directory where raw data will be written to")
+@click.option('--name', type=str, help="Name to read raw data to")
 def main(id, write_to, name):
     """Download data from UCI ML repo and save it."""
     try:
