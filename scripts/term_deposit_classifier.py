@@ -96,19 +96,28 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
 @click.option('--columns-to-drop', type=str, help="Optional: Path to columns to drop from data")
 @click.option('--pipeline-to', type=str, help="Directory to save the pipeline")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
+@click.option('--table-to', type=str, help="Directory to save the score table")
 @click.option('--target-col', type=str, default='target', help="Name of the target/label column")
 @click.option('--seed', type=int, default=522, help="Random seed")
+<<<<<<< HEAD
 def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target_col, seed):
 >>>>>>> f693be3 (Added term deposit classification script)
+=======
+def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, table_to, target_col, seed):
+>>>>>>> 0e0d030 (Updated Classifiier Scripts)
     '''
     Validates data, fits an SVC classifier, saves the pipeline, 
     and saves a confusion matrix plot.
     '''
 <<<<<<< HEAD
+<<<<<<< HEAD
     # Read Data
     train_df = pd.read_csv(processed_train_data)
 =======
     # Load resources
+=======
+    # Read Data
+>>>>>>> 0e0d030 (Updated Classifiier Scripts)
     train_df = pd.read_csv(train_data)
 >>>>>>> f693be3 (Added term deposit classification script)
 
@@ -139,6 +148,9 @@ def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target
     best_model = search_svc(X_train, y_train, data_preprocessor, seed)
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0e0d030 (Updated Classifiier Scripts)
     train_score = round(best_model.best_score_,4)
     train_score_df = pd.DataFrame({'metric':['accuracy'], 'score': [train_score]})
     
@@ -146,9 +158,12 @@ def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target
     os.makedirs(table_to, exist_ok=True)
     score_path = os.path.join(table_to, "svc_train_score.csv")
     train_score_df.to_csv(score_path, index=False)
+<<<<<<< HEAD
 =======
     print(f'Best Train Score: {best_model.best_score_:.3f}')
 >>>>>>> f693be3 (Added term deposit classification script)
+=======
+>>>>>>> 0e0d030 (Updated Classifiier Scripts)
 
 
     # 3. Save the Model
