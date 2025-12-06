@@ -18,6 +18,32 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 @click.option('--preprocessor-to', type=str, help="Path to directory where the preprocessor object will be written to")
 @click.option('--plot-to', type=str, help="Path to directory where the chart will be written to")
 def main(train_csv_file, test_csv_file, data_to, preprocessor_to, plot_to):
+    """
+    Performs validation, preprocessing and exploratory analysis.
+
+    Parameters
+    ----------
+    train_csv_file : str
+        Path to raw train data.
+    test_csv_file : str
+        Path to raw test data.
+    data_to : str
+        Path to directory where processed data will be written to.
+    preprocessor_to : str
+        Path to directory where the preprocessor object will be written to.
+    plot_to : str
+        Path to directory where the chart will be written to.
+
+    Returns
+    -------
+    None
+        The function saves processed files and the preprocessor pickle file.
+
+    Raises
+    ------
+    ValueError
+        If any of the Deepchecks data validation conditions fail.
+    """
     ############################################################
     ### The following code is for BOTH train and test data. ###
     ############################################################
