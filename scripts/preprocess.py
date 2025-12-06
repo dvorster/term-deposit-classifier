@@ -4,6 +4,7 @@ import pickle
 import altair as alt
 import pandas as pd
 import pandera as pa
+import click
 from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import *
 from sklearn.compose import make_column_transformer
@@ -191,8 +192,13 @@ def main(train_csv_file, test_csv_file, data_to, preprocessor_to, plot_to):
     scaled_X_train = data_preprocessor.transform(X_train)
     scaled_X_test = data_preprocessor.transform(X_test)
 
-    scaled_X_train.to_csv(os.path.join(data_to, "scaled_train.csv"), index=False)
-    scaled_X_test.to_csv(os.path.join(data_to, "scaled_test.csv"), index=False)
+    col_names = data_preprocessor.get_feature_names_out()
+
+    scaled_X_train_df = pd.DataFrame(scaled_X_train, columns=col_names)
+    scaled_X_test_df = pd.DataFrame(scaled_X_test, columns=col_names)
+
+    scaled_X_train_df.to_csv(os.path.join(data_to, "scaled_train.csv"), index=False)
+    scaled_X_test_df.to_csv(os.path.join(data_to, "scaled_test.csv"), index=False)
 
     ######################################################
     ### The following code is for train data ONLY. ###
