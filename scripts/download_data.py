@@ -5,40 +5,60 @@
 import click
 import os
 from ucimlrepo import fetch_ucirepo 
+import pandas
 
 
 @click.command()
 @click.option('--id', type=str, help="id of dataset to be downloaded")
-@click.option('--write_to', type=str, help="Path to directory where raw data will be written to")
-def main(id, write_to):
+@click.option('--directory', type=str, help="Path to directory where raw data will be written to")
+def read_uci_id(id, directory):
     """
-    Read in a dataset with id from the UCI machine learning repo, using the ucimlrepo API
+    Read in a data set from the UCI Machine Learning repository using their API and save the 
+    contents to a specified directory.
 
     Parameters:
-    ----------
+    -----------
     id : int
-        The id number of the dataset to read.
-    write_ot : str
-        The directory where the data will be written to.
+        The ucimlrepo id of the dataset to read in. 
+    directory : str
+        The directory where the data set will be saved.
 
     Returns:
-    -------
+    --------
     None
     """
+    #filename = os.path.basename(filename)
+
+    # Check if directory exists, if not raise error
+    if not os.path.isdir(directory):
+        raise ValueError('The directory provided does not exist.')
 
     # Fetch the data from the UCI ML repo
-    bank_marketing = fetch_ucirepo(id=id)
+    uci_data = fetch_ucirepo(id=id)
 
-    # Get the data as pandas dataframes
-    X = bank_marketing.data.features 
-    y = bank_marketing.data.targets 
+    # Create dataset and take a sample
+    raw_uci_data=uci_data.data.features; raw_uci_data['y']=uci_data.data.targets 
+    raw_uci_data_sample = raw_uci_data.sample(4000, random_state=522)
+    
+    # Build path
+    full_path_data = os.path.join(directory, 'raw_uci_data')
+    full_path_data_sample = os.path.join(directory, 'raw_uci_data_sample')
+    
+    # write data to directory
+    raw_uci_data.to_csv(full_path_data)
+    raw_uci_data_sample.to_csv(full_path_data_sample)
+    
 
-    # create complete dataset
-    bank_marketing_data =X; bank_marketing_data['y'] = y
-    bank_marketing_data.to_csv('data/bank_marketing.csv')
+def main(id, write_to):
+    """Download data from UCI ML repo and save it."""
+    try:
+        read_uci_id(id, write_to)
+    except:
+        os.makedirs(write_to)
+        read_uci_id(id, write_to)
 
-    # take a sample from teh data set
-    bank_marketing_sample = bank_marketing_data.sample(4000, random_state=522)
-    bank_marketing_sample.to_csv('data/bank_marketing_small.csv')
+if __name__ == '__main__':
+    main()
 
+    
     # ADDsection to use os to read to data safely!! and to check that data is read etc!!
