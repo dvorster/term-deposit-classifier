@@ -14,7 +14,6 @@ from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
 import warnings
 
-# Filter warnings to keep the output clean
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -121,9 +120,9 @@ def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target
         y_train,
         values_format="d"
     )
-    plt.title("Figure 5: Confusion Matrix for SVC model")
+    plt.title("Train Data: Confusion Matrix for SVC model")
     
-    plot_path = os.path.join(plot_to, "svc_confusion_matrix.png")
+    plot_path = os.path.join(plot_to, "train_svc_confusion_matrix.png")
     plt.savefig(plot_path)
     print(f"Confusion matrix saved to {plot_path}")
 
