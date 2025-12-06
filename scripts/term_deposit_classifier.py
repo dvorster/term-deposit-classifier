@@ -73,14 +73,15 @@ def search_svc(X_train, y_train, preprocessor, seed):
 @click.option('--columns-to-drop', type=str, help="Optional: Path to columns to drop from data")
 @click.option('--pipeline-to', type=str, help="Directory to save the pipeline")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
+@click.option('--table-to', type=str, help="Directory to save the score table")
 @click.option('--target-col', type=str, default='target', help="Name of the target/label column")
 @click.option('--seed', type=int, default=522, help="Random seed")
-def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target_col, seed):
+def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, table_to, target_col, seed):
     '''
     Validates data, fits an SVC classifier, saves the pipeline, 
     and saves a confusion matrix plot.
     '''
-    # Load resources
+    # Read Data
     train_df = pd.read_csv(train_data)
 
     with open(preprocessor, "rb") as f:
@@ -103,7 +104,13 @@ def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target
     print("Tuning SVC model")
     best_model = search_svc(X_train, y_train, data_preprocessor, seed)
     
-    print(f'Best Train Score: {best_model.best_score_:.3f}')
+    train_score = round(best_model.best_score_,4)
+    train_score_df = pd.DataFrame({'metric':['accuracy'], 'score': [train_score]})
+    
+    # Check if table_to directory exists, if not create it
+    os.makedirs(table_to, exist_ok=True)
+    score_path = os.path.join(table_to, "svc_train_score.csv")
+    train_score_df.to_csv(score_path, index=False)
 
 
     # 3. Save the Model
