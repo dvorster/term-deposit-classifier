@@ -52,7 +52,7 @@ def read_uci_id(id, directory, filename):
 @click.command()
 @click.option('--id', type=str, help="id of dataset to be downloaded")
 @click.option('--write_to', type=str, help="Path to directory where raw data will be written to")
-@click.option('--name', type=str, help="Name to read raw data to")
+@click.option('--name', type=str, help="Name to read raw data to. e.g. marketing")
 def main(id, write_to, name):
     """Download data from UCI ML repo and save it."""
     try:
