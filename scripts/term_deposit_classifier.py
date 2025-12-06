@@ -15,9 +15,12 @@ from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCor
 import warnings
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 # Filter warnings to keep the output clean
 >>>>>>> f693be3 (Added term deposit classification script)
+=======
+>>>>>>> fee509b (Fixed imported packages)
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -163,6 +166,7 @@ def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target
         values_format="d"
     )
 <<<<<<< HEAD
+<<<<<<< HEAD
     plt.title("Train Data: Confusion Matrix for SVC model")
     
     plot_path = os.path.join(plot_to, "train_svc_confusion_matrix.png")
@@ -171,6 +175,11 @@ def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target
     
     plot_path = os.path.join(plot_to, "svc_confusion_matrix.png")
 >>>>>>> f693be3 (Added term deposit classification script)
+=======
+    plt.title("Train Data: Confusion Matrix for SVC model")
+    
+    plot_path = os.path.join(plot_to, "train_svc_confusion_matrix.png")
+>>>>>>> fee509b (Fixed imported packages)
     plt.savefig(plot_path)
     print(f"Confusion matrix saved to {plot_path}")
 
