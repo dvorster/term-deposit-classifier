@@ -29,7 +29,7 @@ from sklearn.model_selection import train_test_split
 
 
 def main(loaded_data, processed_data, plot_to):
-    """Run EDA, create plots, split data and save outputs"""
+    """Splits the Data, Runs EDA, create plots, and saves outputs"""
     # Create output directories
     os.makedirs(processed_data, exist_ok=True)
     os.makedirs(plot_to, exist_ok=True)
