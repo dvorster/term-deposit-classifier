@@ -62,10 +62,51 @@ if __name__ == '__main__':
     main()
 =======
 @click.option('--test-data', type=str, help="Path to test data CSV")
-@click.option('--preprocessor', type=str, help="Path to preprocessor pickle object")
-@click.option('--columns-to-drop', type=str, help="Optional: Path to columns to drop from data")
 @click.option('--pipeline-from', type=str, help="Path to the Directory where the pipeline was saved")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
+@click.option('--table-to', type=str, help="Directory to save the score table")
 @click.option('--target-col', type=str, default='target', help="Name of the target/label column")
+<<<<<<< HEAD
 @click.option('--seed', type=int, default=522, help="Random seed")
 >>>>>>> 05a63c2 (Added Evaluation File)
+=======
+def main(test_data, pipeline_from, plot_to, table_to, target_col):
+    '''
+    Evaluates the term deposit classifier on the test data and saves the results.
+    '''
+    # Read Data
+    test_df = pd.read_csv(test_data)
+    
+    # Load Pipeline    
+    with open(pipeline_from, "rb") as f:
+        pipe = pickle.load(f)   
+
+    # Prepare X and y
+    X_test = test_df.drop(columns=[target_col])
+    y_test = test_df[target_col]
+
+    # Score on Test Data
+    test_score = pipe.score(X_test, y_test)
+    test_score_df = pd.DataFrame({'metric':['accuracy'], 'score': [test_score]})
+    
+    # Check if table_to directory exists, if not create it
+    os.makedirs(table_to, exist_ok=True)
+    score_path = os.path.join(table_to, "svc_test_score.csv")
+    test_score_df.to_csv(score_path, index=False)
+
+    # Generate and Save Confusion Matrix
+    ConfusionMatrixDisplay.from_estimator(
+        pipe,
+        X_test,
+        y_test,
+        values_format="d"
+    )
+    plt.title("Test Data: Confusion Matrix for SVC model")
+    
+    plot_path = os.path.join(plot_to, "test_svc_confusion_matrix.png")
+    plt.savefig(plot_path)
+    print(f"Confusion matrix saved to {plot_path}")
+
+if __name__ == '__main__':
+    main()
+>>>>>>> 9a111bc (Updated logic for saving test score)
