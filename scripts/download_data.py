@@ -8,7 +8,7 @@ from ucimlrepo import fetch_ucirepo
 import pandas
 
 
-def read_uci_id(id, directory, filename):
+def read_uci_id(id, directory):
     """
     Read in a data set from the UCI Machine Learning repository using their API and save the 
     contents to a specified directory.
@@ -37,8 +37,8 @@ def read_uci_id(id, directory, filename):
     raw_uci_data_sample = raw_uci_data.sample(4000, random_state=522)
 
     # Create filename
-    filename_data = f"{filename}_data.csv"
-    filename_data_sample = f"{filename}_data_sample.csv"
+    filename_data = "raw_data.csv"
+    filename_data_sample = "raw_data_sample.csv"
     
     # Build path
     full_path_data = os.path.join(directory, filename_data)
@@ -52,14 +52,13 @@ def read_uci_id(id, directory, filename):
 @click.command()
 @click.option('--id', type=str, help="id of dataset to be downloaded")
 @click.option('--write_to', type=str, help="Path to directory where raw data will be written to")
-@click.option('--name', type=str, help="Name to read raw data to. e.g. marketing")
-def main(id, write_to, name):
+def main(id, write_to):
     """Download data from UCI ML repo and save it."""
     try:
-        read_uci_id(id, write_to, name)
+        read_uci_id(id, write_to)
     except:
         os.makedirs(write_to)
-        read_uci_id(id, write_to, name)
+        read_uci_id(id, write_to)
 
 if __name__ == '__main__':
     main()
