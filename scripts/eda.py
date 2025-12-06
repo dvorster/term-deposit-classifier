@@ -10,6 +10,11 @@ from sklearn.model_selection import train_test_split
 # split data
 @click.command()
 @click.option(
+    "--loaded-data", 
+    type=str, 
+    help="Path to loaded data"
+)
+@click.option(
     "--processed-data",
     type=str,
     required=True,
@@ -21,7 +26,9 @@ from sklearn.model_selection import train_test_split
     type=str,
     help="Path to directory where the plot will be written to",
 )
-def main(processed_data, plot_to):
+
+
+def main(loaded_data, processed_data, plot_to):
     """Run EDA, create plots, split data and save outputs"""
     # Create output directories
     os.makedirs(processed_data, exist_ok=True)
@@ -29,8 +36,7 @@ def main(processed_data, plot_to):
 
     # Load Data
     bank_marketing_sample = pd.read_csv(
-        "data/raw/bank_marketing_sample.csv", index_col=0
-    )
+        loaded_data, index_col=0)
 
     train_df, test_df = train_test_split(
         bank_marketing_sample,
