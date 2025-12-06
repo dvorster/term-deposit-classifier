@@ -1,0 +1,131 @@
+#import packages
+
+import click
+import os
+import pandas as pd
+import pickle
+import matplotlib.pyplot as plt
+from scipy.stats import loguniform
+from sklearn.pipeline import make_pipeline
+from sklearn.svm import SVC
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.metrics import ConfusionMatrixDisplay
+from deepchecks.tabular import Dataset
+from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
+import warnings
+
+# Filter warnings to keep the output clean
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
+def feature_corr(df, target_col):
+    """
+    Runs Deepchecks validation for feature-label and feature-feature correlations.
+    Raises ValueError if thresholds are exceeded.
+    """
+    ds = Dataset(df, label=target_col, cat_features=[])
+
+    # Check feature-label correlations
+    check_feat_lab = FeatureLabelCorrelation().add_condition_feature_pps_less_than(0.9)
+    result_feat_lab = check_feat_lab.run(dataset=ds)
+
+    # Check feature-feature correlations
+    check_feat_feat = FeatureFeatureCorrelation().add_condition_max_number_of_pairs_above_threshold(
+        threshold=0.92, n_pairs=0
+    )
+    result_feat_feat = check_feat_feat.run(dataset=ds)
+
+    if not result_feat_lab.passed_conditions():
+        raise ValueError("Feature-Label correlation exceeds the maximum acceptable threshold.")
+
+    if not result_feat_feat.passed_conditions():
+        raise ValueError("Feature-feature correlation exceeds the maximum acceptable threshold.")
+    
+    print("Data validation checks passed.")
+
+
+def search_svc(X_train, y_train, preprocessor, seed):
+    """
+    Fits and tunes an SVC model using RandomizedSearchCV.
+    Returns the fitted search object.
+    """
+    svc_pipe = make_pipeline(preprocessor, SVC(random_state=seed))
+    
+    param_dist = {
+        "svc__C": loguniform(1e-2, 1e3),
+        "svc__gamma": loguniform(1e-2, 1e3)
+    }
+    
+    random_svc = RandomizedSearchCV(
+        svc_pipe, 
+        param_distributions=param_dist,
+        n_iter=100, 
+        n_jobs=-1, 
+        return_train_score=True, 
+        random_state=seed
+    )
+    
+    random_svc.fit(X_train, y_train)
+    return random_svc
+
+@click.command()
+@click.option('--train-data', type=str, help="Path to training data CSV")
+@click.option('--preprocessor', type=str, help="Path to preprocessor pickle object")
+@click.option('--columns-to-drop', type=str, help="Optional: Path to columns to drop from data")
+@click.option('--pipeline-to', type=str, help="Directory to save the pipeline")
+@click.option('--plot-to', type=str, help="Directory to save the plots")
+@click.option('--target-col', type=str, default='target', help="Name of the target/label column")
+@click.option('--seed', type=int, default=522, help="Random seed")
+def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, target_col, seed):
+    '''
+    Validates data, fits an SVC classifier, saves the pipeline, 
+    and saves a confusion matrix plot.
+    '''
+    # Load resources
+    train_df = pd.read_csv(train_data)
+
+    with open(preprocessor, "rb") as f:
+        data_preprocessor = pickle.load(f)
+        
+    if columns_to_drop:
+        to_drop = pd.read_csv(columns_to_drop).features.tolist()
+        train_df = train_df.drop(columns=to_drop)
+
+    # 1. Run Data Validation
+    # We pass the whole dataframe because Deepchecks needs the label column context
+    feature_corr(train_df, target_col)
+
+    # Prepare X and y
+    X_train = train_df.drop(columns=[target_col])
+    y_train = train_df[target_col]
+
+
+    # 2. Fit and Get the Best Parameters of the  Model
+    print("Tuning SVC model")
+    best_model = search_svc(X_train, y_train, data_preprocessor, seed)
+    
+    print(f'Best Train Score: {best_model.best_score_:.3f}')
+
+
+    # 3. Save the Model
+    os.makedirs(pipeline_to, exist_ok=True)
+    model_path = os.path.join(pipeline_to, "svc_pipeline.pickle")
+    with open(model_path, 'wb') as f:
+        pickle.dump(best_model, f)
+    print(f"Model saved to {model_path}")
+
+    # 4. Generate and Save Confusion Matrix
+    ConfusionMatrixDisplay.from_estimator(
+        best_model,
+        X_train,
+        y_train,
+        values_format="d"
+    )
+    plt.title("Figure 5: Confusion Matrix for SVC model")
+    
+    plot_path = os.path.join(plot_to, "svc_confusion_matrix.png")
+    plt.savefig(plot_path)
+    print(f"Confusion matrix saved to {plot_path}")
+
+if __name__ == '__main__':
+    main()
