@@ -16,6 +16,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 @click.command()
+<<<<<<< HEAD
 @click.option('--processed-test-data', type=str, help="Path to scaled test data CSV")
 @click.option('--pipeline-from', type=str, help="Path to the Directory where the pipeline was saved")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
@@ -59,3 +60,12 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
 
 if __name__ == '__main__':
     main()
+=======
+@click.option('--test-data', type=str, help="Path to test data CSV")
+@click.option('--preprocessor', type=str, help="Path to preprocessor pickle object")
+@click.option('--columns-to-drop', type=str, help="Optional: Path to columns to drop from data")
+@click.option('--pipeline-from', type=str, help="Path to the Directory where the pipeline was saved")
+@click.option('--plot-to', type=str, help="Directory to save the plots")
+@click.option('--target-col', type=str, default='target', help="Name of the target/label column")
+@click.option('--seed', type=int, default=522, help="Random seed")
+>>>>>>> 05a63c2 (Added Evaluation File)
