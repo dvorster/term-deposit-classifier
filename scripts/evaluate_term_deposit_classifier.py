@@ -37,11 +37,10 @@ def main(test_data, pipeline_from, plot_to, table_to, target_col):
     y_test = test_df[target_col]
 
     # Score on Test Data
-    test_score = pipe.score(X_test, y_test)
+    test_score = round(pipe.score(X_test, y_test), 4)
     test_score_df = pd.DataFrame({'metric':['accuracy'], 'score': [test_score]})
     
     # Check if table_to directory exists, if not create it
-    os.makedirs(table_to, exist_ok=True)
     score_path = os.path.join(table_to, "svc_test_score.csv")
     test_score_df.to_csv(score_path, index=False)
 
