@@ -62,6 +62,3 @@ def main(id, write_to):
 
 if __name__ == '__main__':
     main()
-
-    
-    # ADDsection to use os to read to data safely!! and to check that data is read etc!!
