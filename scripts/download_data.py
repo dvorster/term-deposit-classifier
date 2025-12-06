@@ -11,7 +11,7 @@ import pandas
 @click.command()
 @click.option('--id', type=str, help="id of dataset to be downloaded")
 @click.option('--directory', type=str, help="Path to directory where raw data will be written to")
-def read_uci_id(id, directory):
+def read_uci_id(id, directory, filename):
     """
     Read in a data set from the UCI Machine Learning repository using their API and save the 
     contents to a specified directory.
@@ -39,23 +39,27 @@ def read_uci_id(id, directory):
     # Create dataset and take a sample
     raw_uci_data=uci_data.data.features; raw_uci_data['y']=uci_data.data.targets 
     raw_uci_data_sample = raw_uci_data.sample(4000, random_state=522)
+
+    # Create filename
+    filename_data = f"{filename}_data.csv"
+    filename_data_sample = f"{filename}_data_sample.csv"
     
     # Build path
-    full_path_data = os.path.join(directory, 'raw_uci_data')
-    full_path_data_sample = os.path.join(directory, 'raw_uci_data_sample')
+    full_path_data = os.path.join(directory, filename_data)
+    full_path_data_sample = os.path.join(directory, filename_data_sample)
     
     # write data to directory
     raw_uci_data.to_csv(full_path_data)
     raw_uci_data_sample.to_csv(full_path_data_sample)
     
 
-def main(id, write_to):
+def main(id, write_to, name):
     """Download data from UCI ML repo and save it."""
     try:
-        read_uci_id(id, write_to)
+        read_uci_id(id, write_to, name)
     except:
         os.makedirs(write_to)
-        read_uci_id(id, write_to)
+        read_uci_id(id, write_to, name)
 
 if __name__ == '__main__':
     main()
