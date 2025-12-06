@@ -1,6 +1,5 @@
-# download_data.py
-# author: Tiffany Timbers
-# date: 2023-11-27
+# download data code adapted from Tiffany A. Timbers, Joel Ostblom & Melissa Lee 2023/11/09's code
+#Check for correct data file format:
 
 import click
 import os
@@ -25,6 +24,13 @@ def read_uci_id(id, directory):
     None
     """
 
+    # Create filename
+    filename_data = "raw_data.csv"
+    filename_data_sample = "raw_data_sample.csv"
+
+    # Cast id to int
+    id = int(id)
+
     # Check if directory exists, if not raise error
     if not os.path.isdir(directory):
         raise ValueError('The directory provided does not exist.')
@@ -36,10 +42,6 @@ def read_uci_id(id, directory):
     raw_uci_data=uci_data.data.features; raw_uci_data['y']=uci_data.data.targets 
     raw_uci_data_sample = raw_uci_data.sample(4000, random_state=522)
 
-    # Create filename
-    filename_data = "raw_data.csv"
-    filename_data_sample = "raw_data_sample.csv"
-    
     # Build path
     full_path_data = os.path.join(directory, filename_data)
     full_path_data_sample = os.path.join(directory, filename_data_sample)
@@ -56,7 +58,7 @@ def main(id, write_to):
     """Download data from UCI ML repo and save it."""
     try:
         read_uci_id(id, write_to)
-    except:
+    except Exception as e:
         os.makedirs(write_to)
         read_uci_id(id, write_to)
 
