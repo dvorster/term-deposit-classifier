@@ -2,7 +2,6 @@
 #Check for correct data file format:
 
 import click
-import numpy as np
 import pandas as pd
 import pandera as pa
 
