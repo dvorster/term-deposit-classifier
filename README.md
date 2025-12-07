@@ -53,7 +53,7 @@ Inside the docker container open a terminal and run the following commands:
 ```
 python scripts/download_data.py --id=222 --write_to=data/raw
 
-python scripts/data_validation.py --raw-data=data/raw/raw_data_sample.csv
+python scripts/data_validation.py --raw_data=data/raw/raw_data_sample.csv
 
 python scripts/eda.py \
 --loaded-data data/raw/raw_data_sample.csv \
