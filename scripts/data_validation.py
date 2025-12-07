@@ -10,7 +10,7 @@ def assert_csv_format(file_path):
     return True
 
 @click.command()
-@click.option('--raw-data', type=str, help="Path to raw data")
+@click.option('--raw_data', type=str, help="Path to raw data")
 def main(raw_data):
     """
     This script validates the data, checking for correct column names, correct data types in each column, no outlier or anomalous values. It does not change the data.
