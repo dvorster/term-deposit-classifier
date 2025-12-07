@@ -43,6 +43,7 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     # Check if table_to directory exists, if not create it
     score_path = os.path.join(table_to, "svc_test_score.csv")
     test_score_df.to_csv(score_path, index=False)
+    print(f"Test score saved to {score_path}")
 
     # Generate and Save Confusion Matrix
     ConfusionMatrixDisplay.from_estimator(
@@ -58,8 +59,4 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     print(f"Confusion matrix saved to {plot_path}")
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     main()
-=======
-    main()
->>>>>>> ebcc1e1a7925cfb87029a27b9458aa3b14bfcdc9

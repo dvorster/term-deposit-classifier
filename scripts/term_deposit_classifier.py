@@ -69,7 +69,6 @@ def search_svc(X_train, y_train, preprocessor, seed):
     return random_svc
 
 @click.command()
-#@click.option('--train-data', type=str, help="Path to training data CSV")
 @click.option('--processed-train-data', type=str, help="Path to processed training data CSV")
 @click.option('--preprocessor', type=str, help="Path to preprocessor pickle object")
 @click.option('--pipeline-to', type=str, help="Directory to save the pipeline")
@@ -90,10 +89,10 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
         
     # 1. Run Data Validation
     # We pass the whole dataframe because Deepchecks needs the label column context
-    #feature_corr(train_df, target_col)
+    feature_corr(train_df, target_col)
 
     # Prepare X and y
-    X_train = train_df.drop(columns=[target_col])
+    X_train = train_df.drop(columns=target_col, axis=1)
     y_train = train_df[target_col]
 
 
@@ -108,6 +107,7 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
     os.makedirs(table_to, exist_ok=True)
     score_path = os.path.join(table_to, "svc_train_score.csv")
     train_score_df.to_csv(score_path, index=False)
+    print(f"Train score saved to {score_path}")
 
 
     # 3. Save the Model
