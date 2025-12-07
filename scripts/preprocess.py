@@ -200,6 +200,9 @@ def main(train_csv_file, test_csv_file, data_to, preprocessor_to, plot_to):
     scaled_X_train_df.to_csv(os.path.join(data_to, "scaled_train.csv"), index=False)
     scaled_X_test_df.to_csv(os.path.join(data_to, "scaled_test.csv"), index=False)
 
+    train_df.to_csv(os.path.join(data_to, "preprocess_train.csv"), index=False)
+    test_df.to_csv(os.path.join(data_to, "preprocess_test.csv"), index=False)
+
     ######################################################
     ### The following code is for train data ONLY. ###
     ######################################################
