@@ -24,6 +24,28 @@ warnings.filterwarnings("ignore", category=UserWarning)
 def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     '''
     Evaluates the term deposit classifier on the test data and saves the results.
+
+    Loads a pre-trained SVC model pipeline and processed test data. Calculates the
+    model's accuracy score and generates a confusion matrix. The results are
+    saved as a CSV file and a PNG image, respectively, in the specified output
+    directories.
+
+    Parameters
+    ----------
+    processed_test_data : str
+        Path to the CSV file containing the processed test data.
+    pipeline_from : str
+        Path to the pickle file containing the trained model pipeline.
+    plot_to : str
+        Path to the directory where the confusion matrix plot will be saved.
+    table_to : str
+        Path to the directory where the accuracy score table will be saved.
+    target_col : str, optional
+        The name of the target class column in the dataframe. Default is 'target'.
+
+    Returns
+    -------
+    None
     '''
     # Read Data
     test_df = pd.read_csv(processed_test_data)
