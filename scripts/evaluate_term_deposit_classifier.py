@@ -17,6 +17,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 @click.command()
 <<<<<<< HEAD
+<<<<<<< HEAD
 @click.option('--processed-test-data', type=str, help="Path to scaled test data CSV")
 @click.option('--pipeline-from', type=str, help="Path to the Directory where the pipeline was saved")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
@@ -62,20 +63,27 @@ if __name__ == '__main__':
     main()
 =======
 @click.option('--test-data', type=str, help="Path to test data CSV")
+=======
+@click.option('--scaled-test-data', type=str, help="Path to scaled test data CSV")
+>>>>>>> 54dec93 (Made changes to Evaluation Logic)
 @click.option('--pipeline-from', type=str, help="Path to the Directory where the pipeline was saved")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
 @click.option('--table-to', type=str, help="Directory to save the score table")
 @click.option('--target-col', type=str, default='target', help="Name of the target/label column")
 <<<<<<< HEAD
+<<<<<<< HEAD
 @click.option('--seed', type=int, default=522, help="Random seed")
 >>>>>>> 05a63c2 (Added Evaluation File)
 =======
 def main(test_data, pipeline_from, plot_to, table_to, target_col):
+=======
+def main(scaled_test_data, pipeline_from, plot_to, table_to, target_col):
+>>>>>>> 54dec93 (Made changes to Evaluation Logic)
     '''
     Evaluates the term deposit classifier on the test data and saves the results.
     '''
     # Read Data
-    test_df = pd.read_csv(test_data)
+    test_df = pd.read_csv(scaled_test_data)
     
     # Load Pipeline    
     with open(pipeline_from, "rb") as f:
