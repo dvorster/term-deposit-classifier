@@ -46,29 +46,41 @@ The project analysis and our conclusions can be found [here](https://github.com/
 (See the highlighted section of the image below for an example.)
 
 <img src="img/jupyter-container-url.png" width=400>
-
-> #### Troubleshooting this step:
->
-> If your web browser will not open the URL.
->
-> a. In your terminal enter `ctrl + c` to exit the container. Run:
-```bash
-docker compose rm
-```
-> b. Using the terminal (enter `nano docker-compose.yml`), or a text editor open the `docker-compose.yml` file. Change the line "--ip:127.0.0.1" to "--ip:0.0.0.0". Save and exit the file.
-> Run:
-```bash
-docker compose up
-```
-> Copy and paste the URL into your web browser.
-
-3. In Jupyter Lab enter 'password' where it says "Password or token:". <br>
-(See the below image for an example of where to do this.)
-
-<img src="img/jupyter-container-enter-password-location.png" width=400>
  
-4. Running the analysis: <br>
-Inside the Jupyter notebook, open the `work` folder, and then open the `term-deposit-analysis.ipynb`. Under the `kernel` menu at the top, click `Restart Kernel and Run All Cells..` to run the notebook and replicate the analysis.
+3. Running the analysis: <br>
+Inside the docker container open a terminal and run the following commands:
+
+```
+python scripts/download_data.py --id=222 --write_to=data/raw
+
+python scripts/data_validation.py --raw-data=data/raw/raw_data_sample.csv
+
+python scripts/eda.py --loaded-data data/raw/raw_data_sample.csv --processed-data data/processed_data --plot-to data/processed_data/figures
+
+python scripts/preprocess.py --train-csv-file data/processed_data/train.csv --test-csv-file data/processed_data/test.csv --data-to data/processed_data --preprocessor-to results/models --plot-to results/figures
+
+python scripts/term_deposit_classifier.py
+--processed-train-data=data/processed_data/preprocess_train.csv
+--preprocessor=results/models/data_preprocessor.pickle
+--pipeline-to=results/models
+--plot-to=results/figures
+--table-to=results/tables
+--target-col=target
+--seed=522
+
+python scripts/evaluate_term_deposit_classifier.py
+--processed-test-data=data/processed_data/preprocess_test.csv
+--pipeline-from=results/models/svc_pipeline.pickle
+--plot-to=results/figures
+--table-to=results/tables
+--target-col=target
+
+quarto render report/term-deposit-analysis.qmd --to html
+quarto render report/term-deposit-analysis.qmd --to pdf
+```
+
+4. Clean up: <br>
+To shut down the container and clean up resources, type 'cntrl' + 'c' in the terminal where you launched the container, and then type `docker compose rm`. Press `y` to agree when prompted.
 
 ## Developer Notes
 
