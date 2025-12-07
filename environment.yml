@@ -25,4 +25,4 @@ dependencies:
   - vegafusion-python-embed==1.6.9
   - vl-convert-python==1.8.0
   - matplotlib==3.10.7
-  - quarto==0.1.0
+  - quarto-cli==1.8.26

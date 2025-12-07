@@ -8,4 +8,4 @@ RUN conda update --quiet --file /tmp/conda-linux-64.lock \
     && fix-permissions "/home/${NB_USER}"
 
 RUN pip install altair_ally==0.1.1 deepchecks==0.19.1 pandera==0.27.0 vegafusion==2.0.3 \
-                vegafusion-python-embed==1.6.9 vl-convert-python==1.8.0 matplotlib==3.10.7 quarto==0.1.0
+                vegafusion-python-embed==1.6.9 vl-convert-python==1.8.0 matplotlib==3.10.7 quarto-cli==1.8.26
