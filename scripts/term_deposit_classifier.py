@@ -22,7 +22,8 @@ def feature_corr(df, target_col):
     Runs Deepchecks validation for feature-label and feature-feature correlations.
     Raises ValueError if thresholds are exceeded.
     """
-    ds = Dataset(df, label=target_col, cat_features=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'pdays_contacted'])
+    ds = Dataset(df, label=target_col, cat_features=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact',
+       'month', 'pdays_contacted'])
 
     # Check feature-label correlations
     check_feat_lab = FeatureLabelCorrelation().add_condition_feature_pps_less_than(0.9)

@@ -58,4 +58,8 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     print(f"Confusion matrix saved to {plot_path}")
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     main()
+=======
+    main()
+>>>>>>> ebcc1e1a7925cfb87029a27b9458aa3b14bfcdc9
