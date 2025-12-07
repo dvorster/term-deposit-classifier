@@ -70,13 +70,12 @@ def search_svc(X_train, y_train, preprocessor, seed):
 @click.command()
 @click.option('--train-data', type=str, help="Path to training data CSV")
 @click.option('--preprocessor', type=str, help="Path to preprocessor pickle object")
-@click.option('--columns-to-drop', type=str, help="Optional: Path to columns to drop from data")
 @click.option('--pipeline-to', type=str, help="Directory to save the pipeline")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
 @click.option('--table-to', type=str, help="Directory to save the score table")
 @click.option('--target-col', type=str, default='target', help="Name of the target/label column")
 @click.option('--seed', type=int, default=522, help="Random seed")
-def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, table_to, target_col, seed):
+def main(train_data, preprocessor, pipeline_to, plot_to, table_to, target_col, seed):
     '''
     Validates data, fits an SVC classifier, saves the pipeline, 
     and saves a confusion matrix plot.
@@ -87,10 +86,6 @@ def main(train_data, preprocessor, columns_to_drop, pipeline_to, plot_to, table_
     with open(preprocessor, "rb") as f:
         data_preprocessor = pickle.load(f)
         
-    if columns_to_drop:
-        to_drop = pd.read_csv(columns_to_drop).features.tolist()
-        train_df = train_df.drop(columns=to_drop)
-
     # 1. Run Data Validation
     # We pass the whole dataframe because Deepchecks needs the label column context
     feature_corr(train_df, target_col)
