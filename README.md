@@ -84,7 +84,6 @@ python scripts/evaluate_term_deposit_classifier.py \
 --target-col=target
 
 quarto render report/term-deposit-analysis.qmd --to html 
-quarto render report/term-deposit-analysis.qmd --to pdf
 ```
 
 4. Clean up: <br>
