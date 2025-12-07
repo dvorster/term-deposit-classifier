@@ -1,6 +1,6 @@
 services:
   project-env:
-    image: dvorster/term-deposit-classifier:dadf738
+    image: dvorster/term-deposit-classifier:c7207bb
     ports:
       - "8888:8888"
     volumes:
