@@ -59,9 +59,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin
-          git checkout main
-          git pull --rebase origin main
           git add docker-compose.yml
           git commit -m "Update docker-compose.yml with new image tag" || exit 0
           git push origin main
