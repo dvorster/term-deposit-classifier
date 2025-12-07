@@ -1,0 +1,136 @@
+---
+title: "Predicting Whether Clients Will Subscribe To A Term Deposit Based On Their Information."
+authors: "Godsgift Braimah, Devon Vorster, Chikire Aku-Ibe, & Fu Hung Kwong"
+editor: source
+format:
+  html:
+    toc: true
+    toc-depth: 3
+bibliography: references.bib
+output-file: index.html
+execute:
+  echo: false
+  warning: false
+  
+---
+
+
+
+```{python}
+import pandas as pd
+import numpy as np
+import altair_ally as aly
+import altair as alt
+```
+
+# Summary:
+
+We built a classification model using the Support Vector Classifier (SVC), which can utilise information related to the client and the marketing contact to predict whether a client will subscribe to a term deposit. Our folder structure and code guide were adapted from Tiffany A. Timbers, Joel Ostblom & Melissa Lee [@Timbers_breast_cancer_repo]
+
+Our classifier, the SVC, performed well on an unseen test data set, achieving a Test Score (Accuracy) of **0.9075**. Its Train Score indicated a good fit without significant overfitting. Although the simple accuracy score does not detail the balance of True Positives versus False Negatives, an accuracy exceeding **80%** suggests the model is highly effective.
+
+Given our goal is to increase the subscription rate, the model's primary goal is to minimize the False Negative rate, avoiding the error of predicting a client will not subscribe when they would have. The current performance suggests that using this model for initial client prioritization could significantly improve resource allocation, making the model valuable for immediate business implementation. However, further analysis of precision and recall would be necessary to optimize its practical utility.
+
+# Introduction:
+
+Direct marketing campaigns, particularly those relying on phone calls, are a significant investment for banking institutions. The success of these campaigns is measured by the client subscription rate to a product like a term deposit. Another dataset shows that the subscription rate of term deposit in a Portuguese banking is only around 11.70% [@Ngu_2024], optimizing the targeting strategy is crucial to maximize return on investment and minimize operational costs.
+
+Here we ask if a machine learning algorithm can be used to predict whether a client will subscribe to a term deposit based on information related to the client, such as type of job, education level; and also the marketing contact, e.g. number of contacts during the campaign, number of days since last contact. Answering this question is important because term deposit campaigns often require multiple contacts to the same client, making the process labor-intensive and expensive. Thus, if a machine learning algorithm can accurately and effectively predict client subscription, this could allow the bank to prioritize clients who are most likely to convert, leading to more efficient resource allocation and a higher overall subscription rate, improving the campaign results.
+
+# Methods:
+
+
+## Data: 
+The data we used was obtained the UCI Machine Learning Repository which can be found [@ucimlrepo_2025], specifically the Bank Marketing dataset of a Portuguese bank institution . The dataset contains various features about bank customers and whether they subscribed to a term deposit, an investment product offered by the bank (variable y). Each row in the dataset contains details of customers which was used to predict if they would subscribe to the term deposit or not. The original dataset contains 45211 records with 16 features and one target (17 columns). For the purpose of this analysis, we sampled 4,000 records from the original dataset to speed up the EDA and model training process.
+
+
+## Analysis: 
+We started this analysis by performing an exploratory data analysis (EDA) to understand the nature of the variables and their relationships. We observed some missing values in the dataset. We also observed that the target variable (y) was imbalanced with a higher proportion of customers not subscribing to the term deposit. 
+
+We decided to use Support Vector Classifier (SVC) models for this analysis.The [@scikit_learn] package was greatly used in these processes. We performed hyperparameter tuning using Python RandomizedSearchCV to find the best parameters for each model. We mapped the values of the target y, using 'yes': 1, 'no': 0. The data was split using 80% for the training set and 20% for the test set. In the preprocessing, we dropped 'day_of_week' and 'pdays' because we considered them not relevant for analysis. The 'poutcome' variable was also dropped since it had a high number of missing values. Categorical variables were one-hot encoded, ordinal data were handled using ordinal encoding, numerical variables were scaled using StandardScaler and missing values for the selected features were imputed using SimpleImputer with the "most frequent" strategy.
+
+The models were evaluated based on their accuracy on the test set. 
+
+### Loading The Data
+
+```{python}
+#| label: tbl-banking-sample-data
+#| tbl-cap: Banking Sample Data.
+banking_sample_data = pd.read_csv("../data/raw/raw_data_sample.csv", index_col=0)
+banking_sample_data.head(10)
+```
+
+@tbl-banking-sample-data shows the first ten rows of our sample data.
+
+### Data Validation
+During our data valuation, we checked the following:
+
+1. Correct data file format
+2. Correct column names
+3. No empty observations
+4. Missingness not beyond expected threshold
+5. Correct data types in each column
+6. No duplicate observations
+7. No outlier or anomalous values
+8. Correct category levels (i.e., no string mismatches or single values)
+9. Target/response variable follows expected distribution
+10. No anomalous correlations between target/response variable and features/explanatory variables
+11. No anomalous correlations between features/explanatory variables
+
+After our checks, we observed that our data had the correct data file format, correct column names, no empty observations, no missingness beyond expected threshold, correct data types in each column, and no duplicate observations. 
+
+
+### EDA 
+![Univariate distributions of numeric variables in Bank Marketing Dataset](../results/figures/numeric_univariate.png){#fig-univariate-num width=90%}
+
+Our distribution plots for variables previous, pday, campaign, duration, balance in @fig-univariate-num were highly right-skewed. 
+
+![Univariate distributions of Categorical variables in Bank Marketing Dataset](../results/figures/categorical_univariate.png){#fig-univariate-cat width=90%}
+
+![Correlation Plots For Numeric variables in Bank Marketing Dataset](../results/figures/correlation_plot.png){#fig-correlation width=90%}
+
+
+This implies that most customers had low values for these variables and a few customers had high values. In addition, the correlation plots in @fig-correlation showed that "previous" and "pday" had the highest positive correlation.
+
+
+### Data Preprocessing, Model Building and Evaluation
+
+We decided to train Support Vector Classifier (SVC) to determine which was more efficient in predicting if a customer would subscribed to the banks offering of term investments. We performed hyperparameter tuning using RandomizedSearchCV to find the best parameters for each model. The models were evaluated based on their accuracy on the test set.
+
+
+
+
+# Results & Discussion
+Our SVC train score can be seen in @tbl-train-score below: 
+```{python}
+#| label: tbl-train-score
+#| tbl-cap: SVC Train Score.
+svc_train_score = pd.read_csv("../results/tables/svc_train_score.csv")
+train_score = svc_train_score.loc[svc_train_score["metric"] == "accuracy", "score"].iloc[0]
+svc_train_score
+```
+
+Our SVC test score can be seen in @tbl-test-score below: 
+```{python}
+#| label: tbl-test-score
+#| tbl-cap: SVC Test Score.
+svc_test_score = pd.read_csv("../results/tables/svc_test_score.csv")
+test_score = svc_test_score.loc[svc_test_score["metric"] == "accuracy", "score"].iloc[0]
+svc_test_score
+```
+
+Our SVC classification model performed well on the testing data, with accuracy(test score) of `{python} test_score` and a training score of `{python} train_score`.
+
+Considering the imbalance in our target class, accuracy alone is not sufficient for determining the suitability of our model. Therefore, exploring metrics from the confusion matrix in @fig-confusion-matrix and classification report is recommended as a next step.
+
+::: {#fig-confusion-matrix}
+![](../results/figures/test_svc_confusion_matrix.png){width=70%}
+
+Confusion Matrix for SVC model
+:::
+
+
+A second area for further analysis is determining which specific features are most important for predicting whether a client will subscribe to a term deposit. Identifying these key features will enable the bank to better tailor its actions to increase subscription rates. In light of this, the Logistic Regression model is a better choice, as it provides more interpretable results. However, due to interactions between features and preprocessing steps such as regularization, the coefficients of the Logistic Regression model can become difficult to interpret. Nevertheless, if properly examined, the coefficient estimates can help identify the important characteristics the bank should focus on to increase its rate of subscriptions to term deposits.
+
+# References:
+
