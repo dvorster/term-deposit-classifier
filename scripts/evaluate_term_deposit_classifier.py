@@ -18,12 +18,16 @@ warnings.filterwarnings("ignore", category=UserWarning)
 @click.command()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 58c3dba (Updated scaled to preprocessed Input)
 @click.option('--processed-test-data', type=str, help="Path to scaled test data CSV")
 @click.option('--pipeline-from', type=str, help="Path to the Directory where the pipeline was saved")
 @click.option('--plot-to', type=str, help="Directory to save the plots")
 @click.option('--table-to', type=str, help="Directory to save the score table")
 @click.option('--target-col', type=str, default='target', help="Name of the target/label column")
 def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
+<<<<<<< HEAD
     '''
     Evaluates the term deposit classifier on the test data and saves the results.
     '''
@@ -79,11 +83,13 @@ def main(test_data, pipeline_from, plot_to, table_to, target_col):
 =======
 def main(scaled_test_data, pipeline_from, plot_to, table_to, target_col):
 >>>>>>> 54dec93 (Made changes to Evaluation Logic)
+=======
+>>>>>>> 58c3dba (Updated scaled to preprocessed Input)
     '''
     Evaluates the term deposit classifier on the test data and saves the results.
     '''
     # Read Data
-    test_df = pd.read_csv(scaled_test_data)
+    test_df = pd.read_csv(processed_test_data)
     
     # Load Pipeline    
     with open(pipeline_from, "rb") as f:
