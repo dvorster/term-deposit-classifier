@@ -4,6 +4,9 @@ Tests for Feature-Label and Feature-Feature Correlation.
 This module provides functionality to test if the logic for
 our function: `feature_corr` which checks correlations between 
 features and the target label in our data.
+
+Author: Godsgift Braimah
+Date: 2025-12-12
 """
 import pytest
 import sys
