@@ -45,6 +45,10 @@ def feature_corr(df, target_col):
         If the Feature-Label correlation or Feature-Feature correlation
         exceeds the maximum acceptable thresholds.
     """
+    # Pass input as a DataFrame
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("Input must be a pandas DataFrame, but got a " + str(type(df)))
+    
     # Initialize Deepchecks Dataset
     ds = Dataset(df, label=target_col, cat_features=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'pdays_contacted'])
 
