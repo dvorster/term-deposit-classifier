@@ -1,13 +1,16 @@
-import click
-import os
+"""
+Feature correlation validation module.
+
+This module provides functionality to validate the integrity of the training data
+using the Deepchecks library. It specifically checks for excessive correlations
+between features and the target label, as well as multicollinearity among features,
+to ensure dataset quality before model training.
+
+Author: Godsgift Braimah
+Date: 2025-12-01
+"""
+
 import pandas as pd
-import pickle
-import matplotlib.pyplot as plt
-from scipy.stats import loguniform
-from sklearn.pipeline import make_pipeline
-from sklearn.svm import SVC
-from sklearn.model_selection import RandomizedSearchCV
-from sklearn.metrics import ConfusionMatrixDisplay
 from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
 import warnings
@@ -19,9 +22,10 @@ def feature_corr(df, target_col):
     """
     Runs Deepchecks validation for feature-label and feature-feature correlations.
 
-    Converts the DataFrame to a Deepchecks Dataset (specifying categorical features)
-    and checks if the Predictive Power Score (PPS) between features and labels
-    is less than 0.9, and if feature-feature correlations are below 0.92.
+    This function converts the input DataFrame into a Deepchecks Dataset, explicitly
+    defining categorical features. It then validates two conditions:
+    1. The Predictive Power Score (PPS) between any feature and the label must be < 0.9.
+    2. The correlation between any pair of features must be < 0.92.
 
     Parameters
     ----------
@@ -29,13 +33,19 @@ def feature_corr(df, target_col):
         The training DataFrame containing features and the target.
     target_col : str
         The name of the target column.
-
+    
+    Returns
+    -------
+    None
+        Returns None if all checks pass.
+        
     Raises
     ------
     ValueError
         If the Feature-Label correlation or Feature-Feature correlation
         exceeds the maximum acceptable thresholds.
     """
+    # Initialize Deepchecks Dataset
     ds = Dataset(df, label=target_col, cat_features=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'pdays_contacted'])
 
     # Check feature-label correlations

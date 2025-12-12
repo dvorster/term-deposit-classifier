@@ -1,15 +1,22 @@
-import click
-import os
+"""
+Hyperparameter tuning module for Support Vector Classifier (SVC).
+
+This module contains functionality to optimize the hyperparameters of an SVC
+model. It utilizes a randomized search strategy over a log-uniform distribution
+to identify the optimal 'C' (regularization) and 'gamma' (kernel coefficient)
+parameters, ensuring the model is tuned for best performance.
+
+Author: Godsgift Braimah
+Date: 2025-12-01
+"""
+
 import pandas as pd
 import pickle
-import matplotlib.pyplot as plt
 from scipy.stats import loguniform
 from sklearn.pipeline import make_pipeline
 from sklearn.svm import SVC
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import ConfusionMatrixDisplay
-from deepchecks.tabular import Dataset
-from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
 import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -19,9 +26,10 @@ def search_svc(X_train, y_train, preprocessor, seed):
     """
     Fits and tunes an SVC model using RandomizedSearchCV.
 
-    Builds a pipeline with the provided preprocessor and an SVC classifier.
-    Performs a randomized search over 'C' and 'gamma' using a log-uniform
-    distribution.
+    Constructs a machine learning pipeline combining the provided
+    preprocessor with an SVC classifier. It then executes a randomized search 
+    to find the best hyperparameters ('C' and 'gamma') sampling from a 
+    log-uniform distribution.
 
     Parameters
     ----------
