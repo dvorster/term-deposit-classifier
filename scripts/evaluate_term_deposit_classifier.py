@@ -7,7 +7,7 @@ from scipy.stats import loguniform
 from sklearn.pipeline import make_pipeline
 from sklearn.svm import SVC
 from sklearn.model_selection import RandomizedSearchCV
-from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
 import warnings
@@ -62,11 +62,19 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     test_score = round(pipe.score(X_test, y_test), 4)
     test_score_df = pd.DataFrame({'metric':['accuracy'], 'score': [test_score]})
     
-    # Check if table_to directory exists, if not create it
+    # Create path and store file.
     score_path = os.path.join(table_to, "svc_test_score.csv")
     test_score_df.to_csv(score_path, index=False)
     print(f"Test score saved to {score_path}")
 
+    # Classification Report on Test Data
+    report = classification_report(y_test, pipe.predict(X_test), output_dict=True) 
+    classification_report_df = pd.DataFrame(report).T.round(2)
+    
+    report_path = os.path.join(table_to, "svc_classification_report.csv")
+    classification_report_df.to_csv(report_path, index=False)
+    print(f"Classification Report saved to {report_path}")
+    
     # Generate and Save Confusion Matrix
     ConfusionMatrixDisplay.from_estimator(
         pipe,
