@@ -41,7 +41,63 @@ def base_df():
     
     return df
 
-# --- Test Cases for Data Transformation (Kept as is, they are fine) ---
+def test_preprocess_deepcheck_type_error_on_non_dataframe():
+    """
+    Tests that preprocess_deepcheck raises a TypeError when the input 
+    is not a pandas DataFrame (e.g., a list, string, or integer).
+    """
+    
+    # 1. Test case with a list
+    non_df_list = [1, 2, 3, 4]
+    with pytest.raises(TypeError) as excinfo:
+        preprocess_deepcheck(non_df_list)
+    
+    # Assert that the error message is informative and related to the type check
+    assert "Input 'target_df' must be a pandas DataFrame" in str(excinfo.value)
+    
+    # 2. Test case with a string
+    non_df_string = "this is not a dataframe"
+    with pytest.raises(TypeError):
+        preprocess_deepcheck(non_df_string)
+        
+    # 3. Test case with None
+    non_df_none = None
+    with pytest.raises(TypeError):
+        preprocess_deepcheck(non_df_none)
+
+    # 4. Test case with an integer
+    non_df_int = 123
+    with pytest.raises(TypeError):
+        preprocess_deepcheck(non_df_int)
+
+def test_preprocess_deepcheck_raises_error_on_missing_columns(base_df):
+    """
+    Tests that preprocess_deepcheck raises a ValueError when required 
+    columns ('y', 'pdays', 'day_of_week', 'poutcome') are missing.
+    """
+    # Create a DataFrame missing 'y' and 'pdays'
+    df_missing = base_df.drop(columns=['y', 'pdays']).copy()
+    
+    with pytest.raises(ValueError) as excinfo:
+        preprocess_deepcheck(df_missing)
+        
+    # The required missing columns should be identified in the error message
+    error_message = str(excinfo.value)
+    assert "Target DataFrame is missing required columns" in error_message
+    assert "'y'" in error_message
+    assert "'pdays'" in error_message
+    
+    # Test with another missing column, e.g., 'day_of_week'
+    df_missing_2 = base_df.drop(columns=['day_of_week']).copy()
+    
+    with pytest.raises(ValueError) as excinfo:
+        preprocess_deepcheck(df_missing_2)
+        
+    error_message_2 = str(excinfo.value)
+    assert "Target DataFrame is missing required columns" in error_message_2
+    assert "'day_of_week'" in error_message_2
+
+# --- Test Cases for Data Transformation  ---
 
 def test_transformation_output_shapes(base_df):
     """Test if the function returns the correct number of outputs and their types."""
@@ -113,58 +169,3 @@ def test_deepchecks_passes_on_valid_data(base_df):
     
     # Check the pass messages in stdout
     pass
-
-# def test_deepchecks_fails_on_outlier_ratio(base_df):
-#     """Test for failure due to excessive outliers (OutlierSampleDetection check)."""
-#     df_with_outliers = base_df.copy()
-
-#     df_with_outliers.loc[0, 'age'] = 10000 
-#     df_with_outliers.loc[1, 'age'] = 9999
-#     df_with_outliers.loc[2, 'age'] = 9998
-#     df_with_outliers.loc[3, 'age'] = 9997
-#     df_with_outliers.loc[4, 'age'] = 9996
-#     df_with_outliers.loc[5, 'age'] = 9995
-    
-#     with pytest.raises(ValueError, match="Check 'Outliers' failed!!"):
-#         preprocess_deepcheck(df_with_outliers)
-
-# def test_deepchecks_fails_on_single_value(base_df):
-#     """Test for failure due to a single-value column (IsSingleValue check)."""
-#     df_single_value = base_df.copy()
-    
-#     # Introduce a new column where all values are the same
-#     # Deepchecks' IsSingleValue runs on all features in the Dataset object.
-#     df_single_value['single_val_feature'] = 'constant'
-    
-#     with pytest.raises(ValueError, match="Check 'Single Value' failed!!"):
-#         # The new column will be included in the Deepchecks Dataset object, causing failure.
-#         preprocess_deepcheck(df_single_value)
-
-# def test_deepchecks_fails_on_string_mismatch(base_df):
-#     """Test for failure due to inconsistent string formatting (StringMismatch check)."""
-#     df_mismatch = base_df.copy()
-    
-#     # Introduce an inconsistent string format in a categorical feature: 'job'
-#     # The original categories are e.g., 'management', 'blue-collar'.
-#     # Deepchecks looks for case or whitespace inconsistencies.
-#     df_mismatch.loc[0, 'job'] = ' blue-collar ' # Leading/trailing whitespace
-#     df_mismatch.loc[1, 'job'] = 'MANAGEMENT' # Upper case
-    
-#     with pytest.raises(ValueError, match="Check 'String Mismatch' failed!!"):
-#         preprocess_deepcheck(df_mismatch)
-
-# def test_deepchecks_fails_on_class_imbalance(base_df):
-#     """Test for failure due to severe class imbalance (ClassImbalance check)."""
-#     df_imbalance = base_df.copy()
-    
-#     # The condition is a class ratio (min_class / max_class) less than 0.99.
-#     # In base_df (25 'yes', 25 'no'), the ratio is 1.0. This passes.
-    
-#     # To fail, we need a ratio less than 0.99. Let's make the ratio smaller:
-#     # Set 49 rows to 'no' and 1 row to 'yes'.
-#     # Ratio is 1/49 ≈ 0.02, which is < 0.99.
-#     df_imbalance['y'] = 'no'
-#     df_imbalance.loc[0, 'y'] = 'yes' # One 'yes' is enough to fail the ratio check
-    
-#     with pytest.raises(ValueError, match="Check 'Class Imbalance' failed!!"):
-#         preprocess_deepcheck(df_imbalance)

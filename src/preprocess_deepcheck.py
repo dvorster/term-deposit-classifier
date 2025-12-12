@@ -1,3 +1,4 @@
+import pandas as pd
 from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import *
 
@@ -26,10 +27,24 @@ def preprocess_deepcheck(target_df):
 
     Raises
     ------
+    TypeError
+        If the target_df is not a pandas DataFrame.
     ValueError
-        If any of the Deepchecks data validation conditions fail.
+        If required columns are missing, or any of the Deepchecks 
+        data validation conditions fail.
     """
-        
+
+    # Check if target_df is a pandas DataFrame
+    if not isinstance(target_df, pd.DataFrame):
+        raise TypeError(f"Input 'target_df' must be a pandas DataFrame, but received type: {type(target_df)}")
+    
+    # Check for required columns before preprocessing
+    required_cols = ['y', 'pdays', 'day_of_week', 'poutcome']
+    missing_cols = [col for col in required_cols if col not in target_df.columns]
+    
+    if missing_cols:
+        raise ValueError(f"Target DataFrame is missing required columns for preprocessing: {missing_cols}")
+    
     # map the target variable to numeric
     target_df['y'] = target_df['y'].map({'yes': 1, 'no': 0})
 
