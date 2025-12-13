@@ -1,6 +1,17 @@
 ## Code attributed to ttimbers: breast-cancer-predictor/src/write_csv.py
 ## Link to ttimber breast-cancer-predictor repository: https://github.com/ttimbers/breast-cancer-predictor/blob/3.0.0/src/write_csv.py
 
+"""
+Module for reading data to csv.
+
+This module contains functionality to read data to csv,
+ensuring correct filenames, directory path, datatype,
+and non-empty data frame.
+
+Author: Tiffany A. Timbers (code taken from 
+https://github.com/ttimbers/breast-cancer-predictor/blob/3.0.0/src/write_csv.py)
+"""
+
 import os
 import pandas as pd
 

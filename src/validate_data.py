@@ -1,5 +1,16 @@
 # validate data code adapted from Tiffany A. Timbers, Joel Ostblom & Melissa Lee 2023/11/09's code
-#Check for correct data file format:
+
+"""
+Data validation module using pandera.
+
+This module contains functionality to validate data,
+checking for correct column names, data types, and 
+outliers or anaomalous values.
+
+Author: Devon Vorster (Code adapted from Tiffany A. 
+Timbers, Joel Ostblom & Melissa Lee 2023/11/09's code)
+Date: 2025-12-13
+"""
 
 import pandas as pd
 import pandera.pandas as pa
@@ -10,8 +21,11 @@ def assert_csv_format(file_path):
     
 def validate_data(raw_data):
     """
-    This script validates the data, checking for correct column names, correct data types in each column, no outlier or anomalous values. It does not change the
-    data.
+    This script validates the data, checking for: 
+        - correct column names
+        - correct data types in each column 
+        - no outlier or anomalous values
+    It does not change the data.
 
 
     Parameters:
