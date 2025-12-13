@@ -62,7 +62,6 @@ def read_uci_id(id, directory):
     if raw_uci_data_sample.empty:
         raise ValueError("DataFrame must contain observations.")
 
-    
     # Read to CSV
     write_csv(raw_uci_data, directory, "raw_data.csv")
     write_csv(raw_uci_data_sample, directory, "raw_data_sample.csv")
