@@ -1,7 +1,7 @@
 import pytest
+import pandas as pd
 import sys
 import os
-import pandas as pd
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.read_uci_id import read_uci_id
 
@@ -9,11 +9,11 @@ from src.read_uci_id import read_uci_id
 # Correct = 222, incorrect = 5
 @pytest.fixture
 def valid_id():
-    return 222
+    return '222'
 
 @pytest.fixture
 def invalid_id():
-    return -1
+    return '-1'
 
 @pytest.fixture
 def temp_directory(tmp_path):
@@ -65,8 +65,8 @@ def sample_length():
 # Tests
 
 # Tests successfuly reads to data/raw folder, validate data exists and is what I want it to be
-def read_uci_success(valid_id, temp_directory):
-    read_uci_id(id=valid_id, temp_directory)
+def test_read_uci_id_success(valid_id, temp_directory, col_names, length, sample_length):
+    read_uci_id(valid_id, temp_directory)
     
     # Check that the file exists
     file_path = os.path.join(temp_directory, 'raw_data.csv')
@@ -82,13 +82,29 @@ def read_uci_success(valid_id, temp_directory):
     assert len(loaded_df) == length
 
     loaded_df_sample = pd.read_csv(file_path_sample)
-    assert loaded_df_smaple.columns.tolist() == col_names
-    assert len(loaded_df) == sample_length
+    assert loaded_df_sample.columns.tolist() == col_names
+    assert len(loaded_df_sample) == sample_length
 
 
-# Tests throws error for id is not an integer
+# Tests throws error for id which is not an integer
+def test_read_uci_id_non_int_id(temp_directory):
+    non_int_id = '22l'
+    
+    with pytest.raises(ValueError, match="id must be provided as an integer in string format"):
+        read_uci_id(non_int_id, temp_directory)
 
 # Tests throws an error for id that is not a valid repo
+def test_read_uci_id_invalid_id(temp_directory):
+    invalid_int_id = '-1'
+    
+    with pytest.raises(FileNotFoundError, match=f'Repository matching {invalid_int_id} does not exist'):
+        read_uci_id(invalid_int_id, temp_directory)
 
 # Test throws an error for directory doesnt exist
+def test_read_uci_id_directory_doesnt_exist(temp_directory):
+    valid_id = '1'
+    invalid_directory = '/invalid_directory'
+    
+    with pytest.raises(FileNotFoundError, match='The directory provided does not exist.'):
+        read_uci_id(valid_id, invalid_directory)
 
