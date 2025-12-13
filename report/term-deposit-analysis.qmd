@@ -44,7 +44,7 @@ Here we ask if a machine learning algorithm can be used to predict whether a cli
 
 
 ## Data: 
-The data we used was obtained the UCI Machine Learning Repository which can be found [@ucimlrepo_2025], specifically the Bank Marketing dataset of a Portuguese bank institution . The dataset contains various features about bank customers and whether they subscribed to a term deposit, an investment product offered by the bank (variable y). Each row in the dataset contains details of customers which was used to predict if they would subscribe to the term deposit or not. The original dataset contains 45211 records with 16 features and one target (17 columns). For the purpose of this analysis, we sampled 4,000 records from the original dataset to speed up the EDA and model training process.
+The data we used was obtained the UCI Machine Learning Repository which can be found [@ucimlrepo_2025], specifically the Bank Marketing dataset of a Portuguese bank institution . The dataset contains various features about bank customers and whether they subscribed to a term deposit, an investment product offered by the bank (variable y). Each row in the dataset contains details of customers which was used to predict if they would subscribe to the term deposit or not. The original dataset contains 45211 records with 16 features and one target (17 columns). For the purpose of this analysis, we collected a **random sample** of 4,000 records from the original dataset to speed up the EDA and model training process.
 
 
 ## Analysis: 
