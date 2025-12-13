@@ -2,10 +2,13 @@
 title: "Predicting Whether Clients Will Subscribe To A Term Deposit Based On Their Information."
 author: "Godsgift Braimah, Devon Vorster, Chikire Aku-Ibe, & Fu Hung Kwong"
 editor: source
-format:
-  html:
-    toc: true
-    toc-depth: 3
+format: 
+    html:
+        toc: true
+        toc-depth: 2
+    pdf:
+        toc: true
+        toc-depth: 2
 bibliography: references.bib
 output-file: index.html
 execute:
@@ -95,9 +98,7 @@ This implies that most customers had low values for these variables and a few cu
 
 ### Data Preprocessing, Model Building and Evaluation
 
-We decided to train Support Vector Classifier (SVC) to determine which was more efficient in predicting if a customer would subscribed to the banks offering of term investments. We performed hyperparameter tuning using RandomizedSearchCV to find the best parameters for each model. The models were evaluated based on their accuracy on the test set.
-
-
+We experimented on SVC and Logistic Regression models. We decided to train Support Vector Classifier (SVC) to determine which was more efficient in predicting if a customer would subscribed to the banks offering of term investments. We performed hyperparameter tuning using RandomizedSearchCV to find the best parameters for each model. The models were evaluated based on their accuracy on the test set.
 
 
 # Results & Discussion
@@ -116,10 +117,11 @@ Our SVC test score can be seen in @tbl-test-score below:
 #| tbl-cap: SVC Test Score.
 svc_test_score = pd.read_csv("../results/tables/svc_test_score.csv")
 test_score = svc_test_score.loc[svc_test_score["metric"] == "accuracy", "score"].iloc[0]
-svc_test_score
+
+svc_test_score 
 ```
 
-Our SVC classification model performed well on the testing data, with accuracy(test score) of `{python} test_score` and a training score of `{python} train_score`.
+Our SVC classification model performed well on the testing data, with accuracy(test score) of `{python} f"{test_score}"` and a training score of `{python} f"{train_score}"`.
 
 Considering the imbalance in our target class, accuracy alone is not sufficient for determining the suitability of our model. Therefore, exploring metrics from the confusion matrix in @fig-confusion-matrix and classification report is recommended as a next step.
 
@@ -129,6 +131,33 @@ Considering the imbalance in our target class, accuracy alone is not sufficient 
 Confusion Matrix for SVC model
 :::
 
+```{python}
+#| label: tbl-classification-report
+#| tbl-cap: SVC Classification Report.
+
+classification_report = pd.read_csv("../results/tables/svc_classification_report.csv", index_col=0)
+# Extract metrics using .loc for row indexing
+accuracy = classification_report.loc['accuracy', 'precision'] 
+precision = classification_report.loc['weighted avg', 'precision']
+f1_score = classification_report.loc['weighted avg', 'f1-score']
+recall = classification_report.loc['weighted avg', 'recall']
+classification_report
+```
+
+However, **relying solely on accuracy is misleading in this context**. Further analysis of the classification report @tbl-classification-report reveals that the F1-scores and Recall scores, critical metrics for identifying the minority class (trem deposit subscribers) are suboptimal. The SVC model performed with a recall of **`{python} f"{recall:.2f}"`** (F1: **`{python} f"{f1_score:.2f}"`**). This discrepancy between high accuracy and low recall is a classic indicator of class imbalance, where the models are biased toward predicting the majority class (non-subscribers) at the expense of identifying potential subscribers .
+
+
+**Model Selection:** <br>
+For the purpose of this project, we will proceed with the SVC model, as it demonstrates superior predictive performance (higher F1 and Recall) compared to Logistic Regression. **However, the current recall is still insufficient for a robust marketing strategy**. To address this, future iterations of the model must prioritize techniques that specifically target the minority class.
+<br>
+
+**To improve the model's ability to detect subscribers and extract actionable insights, we propose the following steps:**
+
+- **Addressing Class Imbalance**: To prevent the model from ignoring the minority class, we should incorporate class weighting (e.g., setting class_weight='balanced' in sklearn) or apply resampling techniques such as SMOTE (Synthetic Minority Over-sampling Technique) to artificially balance the training data.
+
+- **Threshold Tuning via Precision-Recall or ROC Curves**: The default decision threshold of 0.5 is likely too high for detecting rare events. By analyzing the Precision-Recall curve, we can identify a custom operating point (e.g., lowering the threshold to 0.1 or 0.2) that maximizes Recall, ensuring we miss fewer potential subscribers even if it results in slightly more false positives.
+
+- **Feature Selection with L1 Regularization**: While SVC is our choice for prediction, we may utilize Lasso (L1 Regularization) as a supplementary analysis tool. L1 regularization induces sparsity by shrinking coefficients of irrelevant features to exactly zero. This would allow us to isolate the specific characteristics that drive subscriptions, providing the bank with a clear, interpretable list of features to focus their marketing efforts on.
 
 A second area for further analysis is determining which specific features are most important for predicting whether a client will subscribe to a term deposit. Identifying these key features will enable the bank to better tailor its actions to increase subscription rates. In light of this, the Logistic Regression model is a better choice, as it provides more interpretable results. However, due to interactions between features and preprocessing steps such as regularization, the coefficients of the Logistic Regression model can become difficult to interpret. Nevertheless, if properly examined, the coefficient estimates can help identify the important characteristics the bank should focus on to increase its rate of subscriptions to term deposits.
 
