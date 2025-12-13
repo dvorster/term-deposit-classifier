@@ -1,5 +1,6 @@
 from ucimlrepo import fetch_ucirepo 
 import pandas
+import write_csv.py
 
 def read_uci_id(id, directory):
     """
@@ -13,34 +14,57 @@ def read_uci_id(id, directory):
     directory : str
         The directory where the data set will be saved.
 
+    Raises:
+    -------
+    ValueError
+        If the id value is not an integer.
+    FileNotFoundError
+        If the id does not point to a valid ucimlrepo repository, or if directory is not a valid directory
+    
+
     Returns:
     --------
     None
     """
-
-    # Create filename
-    filename_data = "raw_data.csv"
-    filename_data_sample = "raw_data_sample.csv"
-
     # Cast id to int
-    id = int(id)
-
+    try :
+        id=int(id)
+    except ():
+        raise ValueError("id must be provided as an integer in string format")
+     
     # Check if directory exists, if not raise error
     if not os.path.isdir(directory):
-        raise ValueError('The directory provided does not exist.')
+        raise FileNotFoundError('The directory provided does not exist.')
 
     # Fetch the data from the UCI ML repo
-    uci_data = fetch_ucirepo(id=id)
+    try :
+        uci_data = fetch_ucirepo(id=id)
+    except():
+        raise FileNotFoundError(f'Repository matching {id} does not exist')
 
-    # Create dataset and take a sample
-    raw_uci_data=uci_data.data.features; raw_uci_data['y']=uci_data.data.targets 
+    # Check data from ucimlrepo is a pandas dataframe
+    if not isinstance(uci_data.data.features, pd.DataFrame):
+        raise TypeError("Input must be a pandas DataFrame") 
+    if not isinstance(raw_uci_data_sample, pd.DataFrame):
+        raise TypeError("Input must be a pandas DataFrame")  
+
+    # Combine features and targets
+    raw_uci_data=uci_data.data.features; raw_uci_data['y']=uci_data.data.targets
+
+    # Check Data is not empty
+    if raw_uci_data.empty:
+        raise ValueError("DataFrame must contain observations.")
+
+    # Take random sample of data
     raw_uci_data_sample = raw_uci_data.sample(4000, random_state=522)
 
-    # Build path
-    full_path_data = os.path.join(directory, filename_data)
-    full_path_data_sample = os.path.join(directory, filename_data_sample)
+    # Check Random Sample of Data is not empty
+    if raw_uci_data_sample.empty:
+        raise ValueError("DataFrame must contain observations.")
+
     
-    # write data to directory
-    raw_uci_data.to_csv(full_path_data)
-    raw_uci_data_sample.to_csv(full_path_data_sample)
+    # Read to CSV
+    write_csv(raw_uci_data, directory, "raw_data.csv")
+    write_csv(raw_uci_data_sample, directory, "raw_data_sample.csv")
+
     
