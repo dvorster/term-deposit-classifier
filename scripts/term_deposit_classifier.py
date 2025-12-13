@@ -1,7 +1,19 @@
-#import packages
+"""
+Training and validation script for term deposit classifier.
+
+This module orchestrates the training pipeline for the term deposit classification
+model. It performs data validation checks, tunes a Support Vector Classifier (SVC)
+using randomized search, and persists the best performing model pipeline. Additionally,
+it generates training performance artifacts including accuracy scores and confusion
+matrices.
+
+Author: Godsgift Braimah
+Date: 2025-12-01
+"""
 
 import click
 import os
+import sys
 import pandas as pd
 import pickle
 import matplotlib.pyplot as plt
@@ -14,93 +26,13 @@ from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
 import warnings
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from src.feature_correlation import feature_corr
+from src.random_search_svc import search_svc
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-def feature_corr(df, target_col):
-    """
-    Runs Deepchecks validation for feature-label and feature-feature correlations.
-
-    Converts the DataFrame to a Deepchecks Dataset (specifying categorical features)
-    and checks if the Predictive Power Score (PPS) between features and labels
-    is less than 0.9, and if feature-feature correlations are below 0.92.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        The training DataFrame containing features and the target.
-    target_col : str
-        The name of the target column.
-
-    Raises
-    ------
-    ValueError
-        If the Feature-Label correlation or Feature-Feature correlation
-        exceeds the maximum acceptable thresholds.
-    """
-    ds = Dataset(df, label=target_col, cat_features=['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'pdays_contacted'])
-
-    # Check feature-label correlations
-    check_feat_lab = FeatureLabelCorrelation().add_condition_feature_pps_less_than(0.9)
-    result_feat_lab = check_feat_lab.run(dataset=ds)
-
-    # Check feature-feature correlations
-    check_feat_feat = FeatureFeatureCorrelation().add_condition_max_number_of_pairs_above_threshold(
-        threshold=0.92, n_pairs=0
-    )
-    result_feat_feat = check_feat_feat.run(dataset=ds)
-
-    if not result_feat_lab.passed_conditions():
-        raise ValueError("Feature-Label correlation exceeds the maximum acceptable threshold.")
-
-    if not result_feat_feat.passed_conditions():
-        raise ValueError("Feature-feature correlation exceeds the maximum acceptable threshold.")
-    
-    print("Data validation checks passed.")
-
-
-def search_svc(X_train, y_train, preprocessor, seed):
-    """
-    Fits and tunes an SVC model using RandomizedSearchCV.
-
-    Builds a pipeline with the provided preprocessor and an SVC classifier.
-    Performs a randomized search over 'C' and 'gamma' using a log-uniform
-    distribution.
-
-    Parameters
-    ----------
-    X_train : pd.DataFrame or np.ndarray
-        The feature matrix for training.
-    y_train : pd.Series or np.ndarray
-        The target vector for training.
-    preprocessor : sklearn
-        The preprocessor object to apply before the model.
-    seed : int
-        Random seed for reproducibility.
-
-    Returns
-    -------
-    sklearn.model_selection.RandomizedSearchCV
-        The fitted RandomizedSearchCV object containing the best estimator.
-    """
-    svc_pipe = make_pipeline(preprocessor, SVC(random_state=seed))
-    
-    param_dist = {
-        "svc__C": loguniform(1e-2, 1e3),
-        "svc__gamma": loguniform(1e-2, 1e3)
-    }
-    
-    random_svc = RandomizedSearchCV(
-        svc_pipe, 
-        param_distributions=param_dist,
-        n_iter=100, 
-        n_jobs=-1, 
-        return_train_score=True, 
-        random_state=seed
-    )
-    
-    random_svc.fit(X_train, y_train)
-    return random_svc
 
 @click.command()
 @click.option('--processed-train-data', type=str, help="Path to processed training data CSV")
@@ -114,11 +46,12 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
     '''
     Validates data, fits an SVC classifier, saves the pipeline, and saves artifacts.
 
-    This function orchestrates the training pipeline:
-    1. Loads processed training data and the preprocessor.
-    2. Runs data validation checks (Deepchecks).
-    3. Tunes an SVC model using RandomizedSearchCV.
-    4. Saves the best model pipeline, training accuracy scores, and a confusion matrix plot.
+    This function performs the following steps in the training pipeline:
+    1. Loads the processed training data and preprocessor object.
+    2. Executes custom feature correlation checks using Deepchecks.
+    3. Performs hyperparameter tuning for an SVC model via RandomizedSearchCV.
+    4. Serializes and saves the best model pipeline.
+    5. Saves training accuracy scores and a confusion matrix plot to disk.
 
     Parameters
     ----------
@@ -136,6 +69,11 @@ def main(processed_train_data, preprocessor, pipeline_to, plot_to, table_to, tar
         The name of the target class column. Default is 'target'.
     seed : int, optional
         Random seed for reproducibility. Default is 522.
+    
+    Returns
+    -------
+    None
+        This function does not return a value; it saves output files to disk.
     '''
     # Read Data
     train_df = pd.read_csv(processed_train_data)

@@ -1,15 +1,20 @@
+"""
+Evaluation script for term deposit classifier.
+
+This module evaluates a pre-trained Support Vector Classifier (SVC) model on processed test data. 
+It generates performance metrics, including accuracy scores and confusion matrices, to
+assess the model's predictive capability regarding term deposit subscriptions.
+
+Author: Godsgift Braimah
+Date: 2025-12-01
+"""
+
 import click
 import os
 import pandas as pd
 import pickle
 import matplotlib.pyplot as plt
-from scipy.stats import loguniform
-from sklearn.pipeline import make_pipeline
-from sklearn.svm import SVC
-from sklearn.model_selection import RandomizedSearchCV
-from sklearn.metrics import ConfusionMatrixDisplay
-from deepchecks.tabular import Dataset
-from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
+from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 import warnings
 
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -25,11 +30,11 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     '''
     Evaluates the term deposit classifier on the test data and saves the results.
 
-    Loads a pre-trained SVC model pipeline and processed test data. Calculates the
-    model's accuracy score and generates a confusion matrix. The results are
-    saved as a CSV file and a PNG image, respectively, in the specified output
-    directories.
-
+    This function loads a pre-trained SVC model pipeline and processed test data. 
+    It calculates the model's accuracy score, generates a classification 
+    report, and visualizes the confusion matrix. These artifacts are saved to 
+    specified output directories to facilitate model validation and reporting.
+    
     Parameters
     ----------
     processed_test_data : str
@@ -39,13 +44,14 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     plot_to : str
         Path to the directory where the confusion matrix plot will be saved.
     table_to : str
-        Path to the directory where the accuracy score table will be saved.
+        Path to the directory where the tables will be saved.
     target_col : str, optional
         The name of the target class column in the dataframe. Default is 'target'.
 
     Returns
     -------
     None
+        This function does not return a value; it saves output files to disk.
     '''
     # Read Data
     test_df = pd.read_csv(processed_test_data)
@@ -62,11 +68,19 @@ def main(processed_test_data, pipeline_from, plot_to, table_to, target_col):
     test_score = round(pipe.score(X_test, y_test), 4)
     test_score_df = pd.DataFrame({'metric':['accuracy'], 'score': [test_score]})
     
-    # Check if table_to directory exists, if not create it
+    # Create path and store file.
     score_path = os.path.join(table_to, "svc_test_score.csv")
     test_score_df.to_csv(score_path, index=False)
     print(f"Test score saved to {score_path}")
 
+    # Classification Report on Test Data
+    report = classification_report(y_test, pipe.predict(X_test), output_dict=True) 
+    classification_report_df = pd.DataFrame(report).T.round(2)
+    
+    report_path = os.path.join(table_to, "svc_classification_report.csv")
+    classification_report_df.to_csv(report_path, index=True)
+    print(f"Classification Report saved to {report_path}")
+    
     # Generate and Save Confusion Matrix
     ConfusionMatrixDisplay.from_estimator(
         pipe,
