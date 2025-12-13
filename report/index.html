@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Godsgift Braimah, Devon Vorster, Chikire Aku-Ibe, &amp; Fu Hung Kwong">
 
 <title>Predicting Whether Clients Will Subscribe To A Term Deposit Based On Their Information.</title>
 <style>
@@ -69,24 +70,18 @@ div.csl-indent {
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
-  <ul>
+  <ul class="collapse">
   <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary:</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction:</a></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods:</a>
   <ul class="collapse">
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data:</a></li>
-  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis:</a>
-  <ul class="collapse">
-  <li><a href="#loading-the-data" id="toc-loading-the-data" class="nav-link" data-scroll-target="#loading-the-data">Loading The Data</a></li>
-  <li><a href="#data-validation" id="toc-data-validation" class="nav-link" data-scroll-target="#data-validation">Data Validation</a></li>
-  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a></li>
-  <li><a href="#data-preprocessing-model-building-and-evaluation" id="toc-data-preprocessing-model-building-and-evaluation" class="nav-link" data-scroll-target="#data-preprocessing-model-building-and-evaluation">Data Preprocessing, Model Building and Evaluation</a></li>
-  </ul></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis:</a></li>
   </ul></li>
   <li><a href="#results-discussion" id="toc-results-discussion" class="nav-link" data-scroll-target="#results-discussion">Results &amp; Discussion</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References:</a></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../index.html.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -146,7 +141,7 @@ div.csl-indent {
 Table&nbsp;1: Banking Sample Data.
 </figcaption>
 <div aria-describedby="tbl-banking-sample-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <div>
 
 
@@ -440,7 +435,7 @@ Figure&nbsp;3: Correlation Plots For Numeric variables in Bank Marketing Dataset
 </section>
 <section id="data-preprocessing-model-building-and-evaluation" class="level3">
 <h3 class="anchored" data-anchor-id="data-preprocessing-model-building-and-evaluation">Data Preprocessing, Model Building and Evaluation</h3>
-<p>We decided to train Support Vector Classifier (SVC) to determine which was more efficient in predicting if a customer would subscribed to the banks offering of term investments. We performed hyperparameter tuning using RandomizedSearchCV to find the best parameters for each model. The models were evaluated based on their accuracy on the test set.</p>
+<p>We experimented on SVC and Logistic Regression models. We decided to train Support Vector Classifier (SVC) to determine which was more efficient in predicting if a customer would subscribed to the banks offering of term investments. We performed hyperparameter tuning using RandomizedSearchCV to find the best parameters for each model. The models were evaluated based on their accuracy on the test set.</p>
 </section>
 </section>
 </section>
@@ -454,7 +449,7 @@ Figure&nbsp;3: Correlation Plots For Numeric variables in Bank Marketing Dataset
 Table&nbsp;2: SVC Train Score.
 </figcaption>
 <div aria-describedby="tbl-train-score-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="28">
 <div>
 
 
@@ -489,7 +484,7 @@ Table&nbsp;2: SVC Train Score.
 Table&nbsp;3: SVC Test Score.
 </figcaption>
 <div aria-describedby="tbl-test-score-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="29">
 <div>
 
 
@@ -528,6 +523,80 @@ Figure&nbsp;4: Confusion Matrix for SVC model
 </figcaption>
 </figure>
 </div>
+<div class="cell" data-execution_count="5">
+<div id="tbl-classification-report" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-classification-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: SVC Classification Report.
+</figcaption>
+<div aria-describedby="tbl-classification-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display" data-execution_count="30">
+<div>
+
+
+<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">precision</th>
+<th data-quarto-table-cell-role="th">recall</th>
+<th data-quarto-table-cell-role="th">f1-score</th>
+<th data-quarto-table-cell-role="th">support</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>0.92</td>
+<td>0.98</td>
+<td>0.95</td>
+<td>714.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>0.67</td>
+<td>0.28</td>
+<td>0.39</td>
+<td>86.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">accuracy</th>
+<td>0.91</td>
+<td>0.91</td>
+<td>0.91</td>
+<td>0.91</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">macro avg</th>
+<td>0.79</td>
+<td>0.63</td>
+<td>0.67</td>
+<td>800.00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">weighted avg</th>
+<td>0.89</td>
+<td>0.91</td>
+<td>0.89</td>
+<td>800.00</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>However, <strong>relying solely on accuracy is misleading in this context</strong>. Further analysis of the classification report <a href="#tbl-classification-report" class="quarto-xref">Table&nbsp;4</a> reveals that the F1-scores and Recall scores, critical metrics for identifying the minority class (trem deposit subscribers) are suboptimal. The SVC model performed with a recall of <strong>0.91</strong> (F1: <strong>0.89</strong>). This discrepancy between high accuracy and low recall is a classic indicator of class imbalance, where the models are biased toward predicting the majority class (non-subscribers) at the expense of identifying potential subscribers .</p>
+<p><strong>Model Selection:</strong> <br> For the purpose of this project, we will proceed with the SVC model, as it demonstrates superior predictive performance (higher F1 and Recall) compared to Logistic Regression. <strong>However, the current recall is still insufficient for a robust marketing strategy</strong>. To address this, future iterations of the model must prioritize techniques that specifically target the minority class. <br></p>
+<p><strong>To improve the model’s ability to detect subscribers and extract actionable insights, we propose the following steps:</strong></p>
+<ul>
+<li><p><strong>Addressing Class Imbalance</strong>: To prevent the model from ignoring the minority class, we should incorporate class weighting (e.g., setting class_weight=‘balanced’ in sklearn) or apply resampling techniques such as SMOTE (Synthetic Minority Over-sampling Technique) to artificially balance the training data.</p></li>
+<li><p><strong>Threshold Tuning via Precision-Recall or ROC Curves</strong>: The default decision threshold of 0.5 is likely too high for detecting rare events. By analyzing the Precision-Recall curve, we can identify a custom operating point (e.g., lowering the threshold to 0.1 or 0.2) that maximizes Recall, ensuring we miss fewer potential subscribers even if it results in slightly more false positives.</p></li>
+<li><p><strong>Feature Selection with L1 Regularization</strong>: While SVC is our choice for prediction, we may utilize Lasso (L1 Regularization) as a supplementary analysis tool. L1 regularization induces sparsity by shrinking coefficients of irrelevant features to exactly zero. This would allow us to isolate the specific characteristics that drive subscriptions, providing the bank with a clear, interpretable list of features to focus their marketing efforts on.</p></li>
+</ul>
 <p>A second area for further analysis is determining which specific features are most important for predicting whether a client will subscribe to a term deposit. Identifying these key features will enable the bank to better tailor its actions to increase subscription rates. In light of this, the Logistic Regression model is a better choice, as it provides more interpretable results. However, due to interactions between features and preprocessing steps such as regularization, the coefficients of the Logistic Regression model can become difficult to interpret. Nevertheless, if properly examined, the coefficient estimates can help identify the important characteristics the bank should focus on to increase its rate of subscriptions to term deposits.</p>
 </section>
 <section id="references" class="level1 unnumbered">
