@@ -6,7 +6,7 @@ USER root
 
 # install lmodern for Quarto PDF rendering
 RUN sudo apt update \
-    && sudo apt install -y lmodern
+    && sudo apt install -y lmodern texlive texlive-luatex
 
 USER $NB_UID
 
