@@ -10,7 +10,7 @@ format:
         toc: true
         toc-depth: 2
 bibliography: references.bib
-output-file: index.html
+output-file: term-deposit-analysis
 execute:
   echo: false
   warning: false
