@@ -1,3 +1,17 @@
+"""
+Initial preprocessing and data validation script.
+
+This script contains the `preprocess_deepcheck` function, which performs
+initial feature engineering, drops unnecessary columns,
+handles target variable encoding, and executes
+a set of critical data integrity and validation checks using the
+Deepchecks library. It is designed to be called by the main
+data processing pipeline.
+
+Author: Teem KWONG
+Date: 2025-12-13
+"""
+
 import pandas as pd
 from deepchecks.tabular import Dataset
 from deepchecks.tabular.checks import *
