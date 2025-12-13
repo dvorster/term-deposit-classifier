@@ -1,3 +1,18 @@
+"""
+Module for testing read_uci_id.py.
+
+This module contains tests to ensure functionality of 
+read_uci_id.py. read_uci_id.py should fetch data from
+the uci ml repository using their built in api, and wite
+the data to a provided dictionary for further analysis. 
+It should raise errors if an invalid id key is passed or if
+a non-existent data frame is passed.
+
+Author: Devon Vorster
+Date: 2025-12-13
+"""
+
+
 import pytest
 import pandas as pd
 import sys

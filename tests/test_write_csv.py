@@ -1,6 +1,18 @@
 ## Code attributed to ttimbers: breast-cancer-predictor/test/test_write_csv.py
 ## Link to ttimber breast-cancer-predictor repository: https://github.com/ttimbers/breast-cancer-predictor/blob/3.0.0/test/test_write_csv.py
 
+"""
+Module for testing write_csv.py.
+
+This module contains tests to ensure functionality of 
+write_csv.py. write_csv.py should read data to csv,
+ensuring correct filenames, directory path, datatype,
+and non-empty data frame.
+
+Author: Tiffany A. Timbers (code taken from 
+https://github.com/ttimbers/breast-cancer-predictor/blob/3.0.0/test/test_write_csv.py)
+"""
+
 import pytest
 import sys
 import os

@@ -1,3 +1,14 @@
+"""
+Module for reading data fromt the UCI ML repository using their API.
+
+This module contains functionality to read in data from the UCI ML
+repository using their built in API. It ensures data is read in 
+correctly and saved as a csv file in the correct data/ subfolder.
+
+Author: Devon Vorster
+Date: 2025-12-13
+"""
+
 from ucimlrepo import fetch_ucirepo 
 import pandas as pd
 import sys
