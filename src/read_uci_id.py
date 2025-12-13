@@ -1,6 +1,9 @@
 from ucimlrepo import fetch_ucirepo 
-import pandas
-import write_csv.py
+import pandas as pd
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from src.write_csv import write_csv
 
 def read_uci_id(id, directory):
     """
@@ -21,7 +24,6 @@ def read_uci_id(id, directory):
     FileNotFoundError
         If the id does not point to a valid ucimlrepo repository, or if directory is not a valid directory
     
-
     Returns:
     --------
     None
@@ -29,7 +31,7 @@ def read_uci_id(id, directory):
     # Cast id to int
     try :
         id=int(id)
-    except ():
+    except Exception as e:
         raise ValueError("id must be provided as an integer in string format")
      
     # Check if directory exists, if not raise error
@@ -39,13 +41,13 @@ def read_uci_id(id, directory):
     # Fetch the data from the UCI ML repo
     try :
         uci_data = fetch_ucirepo(id=id)
-    except():
+    except Exception as e:
         raise FileNotFoundError(f'Repository matching {id} does not exist')
 
     # Check data from ucimlrepo is a pandas dataframe
     if not isinstance(uci_data.data.features, pd.DataFrame):
         raise TypeError("Input must be a pandas DataFrame") 
-    if not isinstance(raw_uci_data_sample, pd.DataFrame):
+    if not isinstance(uci_data.data.targets, pd.DataFrame):
         raise TypeError("Input must be a pandas DataFrame")  
 
     # Combine features and targets
@@ -62,7 +64,7 @@ def read_uci_id(id, directory):
     if raw_uci_data_sample.empty:
         raise ValueError("DataFrame must contain observations.")
 
-    # Read to CSV
+    # write to CSV
     write_csv(raw_uci_data, directory, "raw_data.csv")
     write_csv(raw_uci_data_sample, directory, "raw_data_sample.csv")
 
