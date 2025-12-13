@@ -30,9 +30,9 @@ import altair as alt
 
 We built a classification model using the Support Vector Classifier (SVC), which can utilise information related to the client and the marketing contact to predict whether a client will subscribe to a term deposit. Our folder structure and code guide were adapted from Tiffany A. Timbers, Joel Ostblom & Melissa Lee [@Timbers_breast_cancer_repo]
 
-Our classifier, the SVC, performed well on an unseen test data set, achieving a Test Score (Accuracy) of **0.9075**. Its Train Score indicated a good fit without significant overfitting. Although the simple accuracy score does not detail the balance of True Positives versus False Negatives, an accuracy exceeding **80%** suggests the model is highly effective.
+Our classifier, the SVC achieved a Test Score (Accuracy) of **0.9075**. Its Train Score indicated a good fit without significant overfitting. Although the simple accuracy score does not detail the balance of True Positives versus False Negatives, an accuracy exceeding **80%** suggests the model can be considered effective.
 
-Given our goal is to increase the subscription rate, the model's primary goal is to minimize the False Negative rate, avoiding the error of predicting a client will not subscribe when they would have. The current performance suggests that using this model for initial client prioritization could significantly improve resource allocation, making the model valuable for immediate business implementation. However, further analysis of precision and recall would be necessary to optimize its practical utility.
+Given our goal is to increase the subscription rate, the model's primary goal is to minimize the False Negative rate, avoiding the error of predicting a client will not subscribe when they would have. The current performance suggests that using this model for initial client prioritization may improve resource allocation. However, further analysis of precision and recall would be necessary to optimize its practical utility and make a conclusion on the model.
 
 # Introduction:
 
@@ -50,7 +50,7 @@ The data we used was obtained the UCI Machine Learning Repository which can be f
 ## Analysis: 
 We started this analysis by performing an exploratory data analysis (EDA) to understand the nature of the variables and their relationships. We observed some missing values in the dataset. We also observed that the target variable (y) was imbalanced with a higher proportion of customers not subscribing to the term deposit. 
 
-We decided to use Support Vector Classifier (SVC) models for this analysis.The [@scikit_learn] package was greatly used in these processes. We performed hyperparameter tuning using Python RandomizedSearchCV to find the best parameters for each model. We mapped the values of the target y, using 'yes': 1, 'no': 0. The data was split using 80% for the training set and 20% for the test set. In the preprocessing, we dropped 'day_of_week' and 'pdays' because we considered them not relevant for analysis. The 'poutcome' variable was also dropped since it had a high number of missing values. Categorical variables were one-hot encoded, ordinal data were handled using ordinal encoding, numerical variables were scaled using StandardScaler and missing values for the selected features were imputed using SimpleImputer with the "most frequent" strategy.
+We decided to use a Support Vector Classifier (SVC) model for this analysis.The [@scikit_learn] package was greatly used in these processes. We performed hyperparameter tuning using Python RandomizedSearchCV to find the best parameters for each model. We mapped the values of the target y, using 'yes': 1, 'no': 0. The data was split using 80% for the training set and 20% for the test set. In the preprocessing, we dropped 'day_of_week' and 'pdays' because we considered them not relevant for analysis. The 'poutcome' variable was also dropped since it had a high number of missing values. Categorical variables were one-hot encoded, ordinal data were handled using ordinal encoding, numerical variables were scaled using StandardScaler and missing values for the selected features were imputed using SimpleImputer with the "most frequent" strategy.
 
 The models were evaluated based on their accuracy on the test set. 
 
@@ -144,7 +144,7 @@ recall = classification_report.loc['weighted avg', 'recall']
 classification_report
 ```
 
-However, **relying solely on accuracy is misleading in this context**. Further analysis of the classification report @tbl-classification-report reveals that the F1-scores and Recall scores, critical metrics for identifying the minority class (trem deposit subscribers) are suboptimal. The SVC model performed with a recall of **`{python} f"{recall:.2f}"`** (F1: **`{python} f"{f1_score:.2f}"`**). This discrepancy between high accuracy and low recall is a classic indicator of class imbalance, where the models are biased toward predicting the majority class (non-subscribers) at the expense of identifying potential subscribers .
+However, **relying solely on accuracy is misleading in this context**. Further analysis of the classification report @tbl-classification-report reveals that the F1-scores and Recall scores, critical metrics for identifying the minority class (trem deposit subscribers) are suboptimal. The SVC model performed with a recall of **`{python} f"{recall:.2f}"`** (F1: **`{python} f"{f1_score:.2f}"`**). This discrepancy between high accuracy and low recall is a classic indicator of class imbalance, where the models are biased toward predicting the majority class (non-subscribers) at the expense of identifying potential subscribers.
 
 
 **Model Selection:** <br>
