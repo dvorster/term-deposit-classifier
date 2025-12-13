@@ -1,3 +1,13 @@
+"""
+Pytest suite for the preprocess_deepcheck function.
+
+This module contains unit tests to verify the core functionality of the 
+`preprocess_deepcheck` script.
+
+Author: Teem KWONG
+Date: 2025-12-13
+"""
+
 import pandas as pd
 import pytest
 import os
