@@ -1,3 +1,13 @@
+"""
+Preprocess script for term deposit classifier.
+
+This script performs data validation, feature engineering,
+and saves the processed data and preprocessor pipeline. It also generates
+a correlation heatmap for numerical features.
+
+Author: Teem KWONG
+Date: 2025-12-13
+"""
 
 import os
 import sys
@@ -24,6 +34,12 @@ from src.preprocess_deepcheck import preprocess_deepcheck
 def main(train_csv_file, test_csv_file, data_to, preprocessor_to, plot_to):
     """
     Performs validation, preprocessing and exploratory analysis.
+
+    This function reads the raw training and testing data, performs initial data
+    validation and feature engineering, fits a ColumnTransformer preprocessor
+    on the training data, transforms both datasets,
+    and saves the results. It also performs correlation checks
+    and generates a numerical feature correlation heatmap.
 
     Parameters
     ----------
