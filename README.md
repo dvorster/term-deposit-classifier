@@ -47,46 +47,19 @@ The project analysis and our conclusions can be found [here](https://github.com/
 
 <img src="img/jupyter-container-url.png" width=400>
  
-3. Running the analysis: <br>
-Inside the docker container open a terminal and run the following commands:
+3. Inside the docker container open a terminal and run the following command to clean the analysis of all previous outputs and reset the project to a clean slate:
 
-```
-python scripts/download_data.py --id=222 --write_to=data/raw
-
-python scripts/data_validation.py --raw_data=data/raw/raw_data_sample.csv
-
-python scripts/eda.py \
---loaded-data data/raw/raw_data_sample.csv \
---processed-data data/processed_data \
---plot-to data/processed_data/figures
-
-python scripts/preprocess.py \
---train-csv-file data/processed_data/train.csv \
---test-csv-file data/processed_data/test.csv \
---data-to data/processed_data \
---preprocessor-to results/models \
---plot-to results/figures
-
-python scripts/term_deposit_classifier.py \
---processed-train-data data/processed_data/preprocess_train.csv \
---preprocessor results/models/data_preprocessor.pickle \
---pipeline-to results/models \
---plot-to results/figures \
---table-to results/tables \
---target-col target \
---seed 522
-
-python scripts/evaluate_term_deposit_classifier.py \
---processed-test-data=data/processed_data/preprocess_test.csv \
---pipeline-from=results/models/svc_pipeline.pickle \
---plot-to=results/figures \
---table-to=results/tables \
---target-col=target
-
-quarto render report/term-deposit-analysis.qmd --to html 
+```bash
+    make clean
 ```
 
-4. Clean up: <br>
+4. To run teh project in it's entirety, run the following command in the terminal in the root of the project directory:
+
+```bash
+    make all
+```
+
+5. Clean up: <br>
 To shut down the container and clean up resources, type 'cntrl' + 'c' in the terminal where you launched the container, and then type `docker compose rm`. Press `y` to agree when prompted.
 
 ## Developer Notes
@@ -105,6 +78,11 @@ To shut down the container and clean up resources, type 'cntrl' + 'c' in the ter
 2. Push the changes to GitHub. A new `conda-linux64.lock` file will be made and a new docker image will be built and pushed to Docker Hub automatically. The `docker-compose.yml` file will be automatically updated with the SHA for the new container image.
 
 3. Send a pull request to merge the changes into the `main` branch.
+
+### Running the test suite
+
+Follow the same `docker compose up` steps as in the runnisection above. In the terminal in the root of the project run `pytest` to run the suite of tests. More details can be found in the [`tests`](tests) directory.
+
 
 ## Licenses
 The Term Deposit Classification analysis report is licensed under the  [Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/). If sharing, please provide attribution and link to this webpage. The software code contained within this repository is licensed under the [MIT license](https://opensource.org/license/MIT). You can find more information in our [license file](https://github.com/dvorster/term-deposit-classifier/blob/main/LICENSE).
