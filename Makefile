@@ -1,7 +1,7 @@
 # Makefile for term deposit classifier pipeline
 
 # Default target
-all: report/index.html report/index.pdf
+all: report/term-deposit-analysis.html report/term-deposit-analysis.pdf
 
 # Download raw data
 data/raw/raw_data_sample.csv:
@@ -48,15 +48,15 @@ evaluate: train
 		--target-col=target
 
 # Generate final report
-report/index.html: evaluate report/term-deposit-analysis.qmd
+report/term-deposit-analysis.html: evaluate report/term-deposit-analysis.qmd
 	quarto render report/term-deposit-analysis.qmd --to html
 
 # Generate final report
-report/index.pdf: evaluate report/term-deposit-analysis.qmd
+report/term-deposit-analysis.pdf: evaluate report/term-deposit-analysis.qmd
 	quarto render report/term-deposit-analysis.qmd --to pdf
 
 # Clean up generated files
 clean:
-	rm -rf data/processed_data/* results/figures/* results/models/* results/tables/* report/index.html report/index.pdf
+	rm -rf data/processed_data/* results/figures/* results/models/* results/tables/* report/term-deposit-analysis.html report/term-deposit-analysis.pdf
 
 .PHONY: all validate eda preprocess train evaluate clean
