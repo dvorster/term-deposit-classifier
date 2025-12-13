@@ -8,9 +8,9 @@ This Project Demonstrates the analysis and requirements of `Milestone 1` and `Mi
 ## Project Overview
 This project focuses on building a classification model to predict whether a bank client will subscribe to a term deposit; a type of investment where customers of a bank agree to lock away a specific amount of money with the bank for a fixed period of time. By analyzing client demographics (such as job type, age, education level etc.) alongside marketing interaction history, we aim to identify high-potential customers to optimize direct marketing campaigns or streamline customer relations interactions.
 
-For our analysis we evaluated a Support Vector Classifier (SVC) model. The model performed well on unseen data, achieving a test accuracy score of 0.9075. The training score was 0.9490625, indicating a good fit with no significant overfitting.
+For our analysis we evaluated a Logistic Regression model and a Support Vector Classifier (SVC) model. We preoceeded with the SVC model as it showed better performance. The model performed well initially, achieving a test accuracy score of 0.9075 and a training score of 0.9490625. However, the dataset is heavily imbalanced, favouring clients not subscribing to term deposits, and accuracy alone was not a suitable metric. Further testing acheived a recall score of 0.24, and an f1 score of 0.32 - both of which indicate suboptimal model performance.
 
-From a business perspective, an accuracy exceeding 90% suggests the model is highly effective for initial client prioritization. Implementing this model could significantly improve resource allocation for the bank by targeting clients most likely to convert. However, we recommend further research into other model evaluation metrics considering the imbalanced scenario observed in out target class, so as to reduce the occurrence of False Negatives (the error of missing clients who would have subscribed).
+Given our goal is to increase the subscription rate, the model's primary goal is to minimize the False Negative rate, avoiding the error of predicting a client will not subscribe when they would have. The current performance suggests that using this model for initial client prioritization is still insufficient for a robust marketing strategy, and further analysis of precision and recall would be necessary to optimize its practical utility.
 
 ### Dataset
 The data we used was obtained from the UCI Machine Learning Repository which can be found [here](https://archive.ics.uci.edu/dataset/222/bank+marketing), specifically the Bank Marketing dataset of a Portuguese bank institution. The dataset contains various features about bank customers and whether they subscribed to a term deposit, an investment product offered by the bank which is our variable y. Each row in the dataset represents a customer and our data was used to predict if they would subscribe to the term deposit or not. The original dataset contains 45211 records with 16 features and one target (17 columns). For the purpose of this analysis, we sampled 4,000 records from the original dataset to speed up our EDA and model training process.
@@ -53,7 +53,7 @@ The project analysis and our conclusions can be found [here](https://github.com/
     make clean
 ```
 
-4. To run teh project in it's entirety, run the following command in the terminal in the root of the project directory:
+4. To run the project in it's entirety, run the following command in the terminal in the root of the project directory:
 
 ```bash
     make all
@@ -81,7 +81,7 @@ To shut down the container and clean up resources, type 'cntrl' + 'c' in the ter
 
 ### Running the test suite
 
-Follow the same `docker compose up` steps as in the runnisection above. In the terminal in the root of the project run `pytest` to run the suite of tests. More details can be found in the [`tests`](tests) directory.
+Follow the same `docker compose up` steps as in the run analysis section above. In the terminal in the root of the project run `pytest` to run the suite of tests. More details can be found in the README.md in the tests directory.
 
 
 ## Licenses
