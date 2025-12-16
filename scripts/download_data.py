@@ -22,7 +22,30 @@ from src.read_uci_id import read_uci_id
 @click.option('--id', type=str, help="id of dataset to be downloaded")
 @click.option('--write_to', type=str, help="Path to directory where raw data will be written to")
 def main(id, write_to):
-    """Download data from UCI ML repo and save it."""
+    """
+    Read in a data set from the UCI Machine Learning 
+    repository using their API and save the 
+    contents to a specified directory.
+
+    Parameters:
+    -----------
+    id : int
+        The ucimlrepo id of the dataset to read in. 
+    write_to : str
+        The path to the directory where the data set will be saved.
+
+    Raises:
+    -------
+    ValueError
+        If the id value is not an integer.
+    FileNotFoundError
+        If the id does not point to a valid ucimlrepo 
+        repository, or if directory is not a valid directory
+    
+    Returns:
+    --------
+    None
+    """
     try:
         read_uci_id(id, write_to)
     except Exception as e:

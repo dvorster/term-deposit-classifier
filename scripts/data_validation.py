@@ -16,7 +16,23 @@ from src.validate_data import validate_data
 @click.command()
 @click.option('--raw_data', type=str, help="Path to raw data")
 def main(raw_data):
-    "validate data set using panderas functions"
+    """
+    This script validates the data, checking for: 
+        - correct column names
+        - correct data types in each column 
+        - no outlier or anomalous values
+    It does not change the data.
+
+
+    Parameters:
+    -----------
+    raw_data : str
+        path to the raw data CSV file
+
+    Returns:
+    --------
+    None
+    """
     validate_data(raw_data)
 
 if __name__ == '__main__':
