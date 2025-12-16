@@ -1,6 +1,17 @@
 # download data code adapted from Tiffany A. Timbers, Joel Ostblom & Melissa Lee 2023/11/09's code
 #Check for correct data file format:
 
+"""
+Script to download dataset from UCI ML repository.
+
+This script uses the ucimlrepo API to download data
+using an integer key value realting to a dataset.
+The dataset is then read into the raw data folder.
+
+Author: Devon Vorster
+Date: 2025-12-16
+"""
+
 import click
 import os
 import sys
