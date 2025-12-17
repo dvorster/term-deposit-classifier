@@ -9,6 +9,8 @@ Author: Devon Vorster
 Date: 2025-12-16
 """
 
+import os
+import sys
 import click
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.validate_data import validate_data
